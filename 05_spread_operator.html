@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+        <html>
+        <head>
+            <meta charset="UTF-8">
+            <title>5&period; What does the spread operator do in JS&quest;</title>
+            <style>
+/* From extension vscode.github */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+.vscode-dark img[src$=\#gh-light-mode-only],
+.vscode-light img[src$=\#gh-dark-mode-only],
+.vscode-high-contrast:not(.vscode-high-contrast-light) img[src$=\#gh-light-mode-only],
+.vscode-high-contrast-light img[src$=\#gh-dark-mode-only] {
+	display: none;
+}
+
+</style>
+            
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
+<style>
+            body {
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe WPC', 'Segoe UI', system-ui, 'Ubuntu', 'Droid Sans', sans-serif;
+                font-size: 14px;
+                line-height: 1.6;
+            }
+        </style>
+        <style>
+.task-list-item {
+    list-style-type: none;
+}
+
+.task-list-item-checkbox {
+    margin-left: -20px;
+    vertical-align: middle;
+    pointer-events: none;
+}
+</style>
+<style>
+:root {
+  --color-note: #0969da;
+  --color-tip: #1a7f37;
+  --color-warning: #9a6700;
+  --color-severe: #bc4c00;
+  --color-caution: #d1242f;
+  --color-important: #8250df;
+}
+
+</style>
+<style>
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-note: #2f81f7;
+    --color-tip: #3fb950;
+    --color-warning: #d29922;
+    --color-severe: #db6d28;
+    --color-caution: #f85149;
+    --color-important: #a371f7;
+  }
+}
+
+</style>
+<style>
+.markdown-alert {
+  padding: 0.5rem 1rem;
+  margin-bottom: 16px;
+  color: inherit;
+  border-left: .25em solid #888;
+}
+
+.markdown-alert>:first-child {
+  margin-top: 0
+}
+
+.markdown-alert>:last-child {
+  margin-bottom: 0
+}
+
+.markdown-alert .markdown-alert-title {
+  display: flex;
+  font-weight: 500;
+  align-items: center;
+  line-height: 1
+}
+
+.markdown-alert .markdown-alert-title .octicon {
+  margin-right: 0.5rem;
+  display: inline-block;
+  overflow: visible !important;
+  vertical-align: text-bottom;
+  fill: currentColor;
+}
+
+.markdown-alert.markdown-alert-note {
+  border-left-color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-note .markdown-alert-title {
+  color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-important {
+  border-left-color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-important .markdown-alert-title {
+  color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-warning {
+  border-left-color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-warning .markdown-alert-title {
+  color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-tip {
+  border-left-color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-tip .markdown-alert-title {
+  color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-caution {
+  border-left-color: var(--color-caution);
+}
+
+.markdown-alert.markdown-alert-caution .markdown-alert-title {
+  color: var(--color-caution);
+}
+
+</style>
+        
+        </head>
+        <body class="vscode-body vscode-light">
+            <p><sub><a href="README.html">&lt;&lt;Back to README</a></sub></p>
+<h1 id="5-what-does-the-spread-operator-do-in-js">5. What does the spread operator do in JS?</h1>
+<p>The <strong>spread operator</strong> in JavaScript, represented by three dots (<code>...</code>), allows you:</p>
+<ol>
+<li>
+<p><strong>Expanding Iterables</strong>:</p>
+<ul>
+<li>It allows you to expand elements of an iterable (such as arrays or strings) into individual elements.</li>
+<li>Useful for merging arrays, copying them, or passing their elements to functions without explicit iteration¹.</li>
+</ul>
+</li>
+<li>
+<p><strong>Array Literals</strong>:</p>
+<ul>
+<li>In array literals, the spread operator expands an array into its individual elements.</li>
+<li>For example: <code>[1, ...iterableObj, '4', 'five', 6]</code> combines elements from <code>iterableObj</code> with other values.</li>
+</ul>
+</li>
+</ol>
+<pre><code class="language-JS"><span class="hljs-keyword">const</span> iterableObj = [<span class="hljs-number">2</span>, <span class="hljs-number">3</span>]; <span class="hljs-comment">// An iterable array</span>
+
+<span class="hljs-comment">// Combining elements from iterableObj with other values</span>
+<span class="hljs-keyword">const</span> combinedArray = [<span class="hljs-number">1</span>, ...iterableObj, <span class="hljs-string">&#x27;4&#x27;</span>, <span class="hljs-string">&#x27;five&#x27;</span>, <span class="hljs-number">6</span>];
+
+<span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(combinedArray);
+<span class="hljs-comment">// Output: [1, 2, 3, &#x27;4&#x27;, &#x27;five&#x27;, 6]</span>
+
+</code></pre>
+<br>
+<ol start="3">
+<li><strong>Object Literals</strong>:
+<ul>
+<li>In object literals, it enumerates the properties of an object and adds key-value pairs to the new object being created.</li>
+<li>For example: <code>{ ...obj, key: 'value' }</code> merges properties from <code>obj</code> into a new object.</li>
+</ul>
+</li>
+</ol>
+<p>Examples:</p>
+<pre><code class="language-JS"><span class="hljs-keyword">const</span> obj1 = { <span class="hljs-attr">foo</span>: <span class="hljs-string">&quot;bar&quot;</span>, <span class="hljs-attr">x</span>: <span class="hljs-number">42</span> };
+<span class="hljs-keyword">const</span> obj2 = { <span class="hljs-attr">bar</span>: <span class="hljs-string">&quot;baz&quot;</span>, <span class="hljs-attr">y</span>: <span class="hljs-number">13</span> };
+
+<span class="hljs-keyword">const</span> mergedObj = { ...obj1, ...obj2 };
+<span class="hljs-comment">// { foo: &quot;bar&quot;, x: 42, bar: &quot;baz&quot;, y: 13 }</span>
+
+</code></pre>
+<pre><code class="language-JS"><span class="hljs-keyword">const</span> obj = { <span class="hljs-attr">name</span>: <span class="hljs-string">&#x27;John&#x27;</span>, <span class="hljs-attr">age</span>: <span class="hljs-number">30</span> };
+<span class="hljs-keyword">const</span> additionalProperties = { <span class="hljs-attr">hobby</span>: <span class="hljs-string">&#x27;Programming&#x27;</span>, <span class="hljs-attr">city</span>: <span class="hljs-string">&#x27;New York&#x27;</span> };
+
+<span class="hljs-comment">// Merging properties from obj and additionalProperties</span>
+<span class="hljs-keyword">const</span> mergedObject = { ...obj, <span class="hljs-attr">key</span>: <span class="hljs-string">&#x27;value&#x27;</span>, ...additionalProperties };
+
+<span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(mergedObject);
+<span class="hljs-comment">// Output: { name: &#x27;John&#x27;, age: 30, key: &#x27;value&#x27;, hobby: &#x27;Programming&#x27;, city: &#x27;New York&#x27; }</span>
+</code></pre>
+<br>
+<ol start="4">
+<li><strong>Versatility</strong>:
+<ul>
+<li>You can use the spread operator for function arguments, array literals, and object literals.</li>
+<li>Note that only iterable values (like arrays and strings) can be spread in array literals and argument lists.</li>
+</ul>
+</li>
+</ol>
+<p>Let´s see some more examples within the following code:</p>
+<pre><code class="language-JS"><span class="hljs-comment">// Combining Arrays</span>
+<span class="hljs-keyword">let</span> shoppingCart = [<span class="hljs-number">345</span>, <span class="hljs-number">375</span>, <span class="hljs-number">765</span>, <span class="hljs-number">123</span>];
+<span class="hljs-keyword">let</span> newItems = [<span class="hljs-number">98</span>, <span class="hljs-number">123</span>];
+
+<span class="hljs-comment">//shoppingCart.push(newItems);</span>
+<span class="hljs-comment">//// [object Array] (5)</span>
+<span class="hljs-comment">//[345,375,765,123,</span>
+<span class="hljs-comment">// [object Array] (2)</span>
+<span class="hljs-comment">//[98,123]</span>
+
+<span class="hljs-comment">//With Spread oprator:</span>
+shoppingCart.<span class="hljs-title function_">push</span>(...newItems);
+<span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(shoppingCart); <span class="hljs-comment">// [345, 375, 765, 123, 98, 123]</span>
+
+<span class="hljs-comment">// Copying Arrays</span>
+<span class="hljs-keyword">const</span> shoppingCart = [<span class="hljs-number">345</span>, <span class="hljs-number">375</span>, <span class="hljs-number">765</span>, <span class="hljs-number">123</span>];
+<span class="hljs-keyword">const</span> updatedCart = [...shoppingCart];
+updatedCart.<span class="hljs-title function_">push</span>(<span class="hljs-number">5</span>);
+<span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(updatedCart); <span class="hljs-comment">//[345, 375, 765, 123, 5]</span>
+<span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(shoppingCart); <span class="hljs-comment">//[345, 375, 765, 123]</span>
+
+<span class="hljs-keyword">const</span> orderTotals = [<span class="hljs-number">1</span>, <span class="hljs-number">5</span>, <span class="hljs-number">1</span>, <span class="hljs-number">10</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>];
+<span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-title class_">Math</span>.<span class="hljs-title function_">max</span>(...orderTotals));
+
+<span class="hljs-comment">// [1, 5, 1, 10, 2, 3]</span>
+<span class="hljs-comment">// ...[1, 5, 1, 10, 2, 3]</span>
+<span class="hljs-comment">// 1, 5, 1, 10, 2, 3</span>
+<span class="hljs-comment">// 10</span>
+
+<span class="hljs-keyword">const</span> { starter, closer, ...relievers } = {
+  <span class="hljs-attr">starter</span>: <span class="hljs-string">&#x27;Verlander&#x27;</span>,
+  <span class="hljs-attr">closer</span>: <span class="hljs-string">&#x27;Giles&#x27;</span>,
+  <span class="hljs-attr">relief_1</span>: <span class="hljs-string">&#x27;Morton&#x27;</span>,
+  <span class="hljs-attr">relief_2</span>: <span class="hljs-string">&#x27;Gregerson&#x27;</span>
+}
+
+<span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(starter);
+<span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(closer);
+<span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(relievers);
+</code></pre>
+<p><strong>Coding Exercise Example</strong></p>
+<p>In the return below, use Math and <strong>spread operators</strong> to find the highest number of the highscore array.</p>
+<pre><code class="language-JS"><span class="hljs-keyword">function</span> <span class="hljs-title function_">yourTest</span>(<span class="hljs-params"></span>) {
+  <span class="hljs-keyword">const</span> highscore = [<span class="hljs-number">237.0198</span>, <span class="hljs-number">256.1</span>, <span class="hljs-number">234.846</span>, <span class="hljs-number">237.21</span>, <span class="hljs-number">256.654</span>];
+  
+  
+  <span class="hljs-keyword">return</span> <span class="hljs-title class_">Math</span>.<span class="hljs-title function_">max</span>(...highscore);
+}
+
+<span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-title function_">yourTest</span>());
+
+</code></pre>
+<br>
+<h1 id="references">References</h1>
+<ul>
+<li>
+<p><a href="https://basque.devcamp.com/pt-full-stack-development-javascript-python-react/guide/guide-javascript-spread-operator">DevCamp: Guide to the JavaScript Spread Operator</a></p>
+</li>
+<li>
+<p><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Spread_syntax">MDN Web Docs: Spread operator in JavaScript</a></p>
+</li>
+</ul>
+<br>
+<p><a href="#top"> <span style="color: #f2f2f2; font-size: 30px;"><img src="file:////images/Top-Icon1.webp" alt="alt"></a></span></p>
+<p><sub><a href="README.html">&lt;&lt;Back to README</a></sub></p>
+
+            
+            
+        </body>
+        </html>

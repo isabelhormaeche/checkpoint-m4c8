@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+        <html>
+        <head>
+            <meta charset="UTF-8">
+            <title>1&period; What type of loops are there in JS&quest;</title>
+            <style>
+/* From extension vscode.github */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+.vscode-dark img[src$=\#gh-light-mode-only],
+.vscode-light img[src$=\#gh-dark-mode-only],
+.vscode-high-contrast:not(.vscode-high-contrast-light) img[src$=\#gh-light-mode-only],
+.vscode-high-contrast-light img[src$=\#gh-dark-mode-only] {
+	display: none;
+}
+
+</style>
+            
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
+<style>
+            body {
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe WPC', 'Segoe UI', system-ui, 'Ubuntu', 'Droid Sans', sans-serif;
+                font-size: 14px;
+                line-height: 1.6;
+            }
+        </style>
+        <style>
+.task-list-item {
+    list-style-type: none;
+}
+
+.task-list-item-checkbox {
+    margin-left: -20px;
+    vertical-align: middle;
+    pointer-events: none;
+}
+</style>
+<style>
+:root {
+  --color-note: #0969da;
+  --color-tip: #1a7f37;
+  --color-warning: #9a6700;
+  --color-severe: #bc4c00;
+  --color-caution: #d1242f;
+  --color-important: #8250df;
+}
+
+</style>
+<style>
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-note: #2f81f7;
+    --color-tip: #3fb950;
+    --color-warning: #d29922;
+    --color-severe: #db6d28;
+    --color-caution: #f85149;
+    --color-important: #a371f7;
+  }
+}
+
+</style>
+<style>
+.markdown-alert {
+  padding: 0.5rem 1rem;
+  margin-bottom: 16px;
+  color: inherit;
+  border-left: .25em solid #888;
+}
+
+.markdown-alert>:first-child {
+  margin-top: 0
+}
+
+.markdown-alert>:last-child {
+  margin-bottom: 0
+}
+
+.markdown-alert .markdown-alert-title {
+  display: flex;
+  font-weight: 500;
+  align-items: center;
+  line-height: 1
+}
+
+.markdown-alert .markdown-alert-title .octicon {
+  margin-right: 0.5rem;
+  display: inline-block;
+  overflow: visible !important;
+  vertical-align: text-bottom;
+  fill: currentColor;
+}
+
+.markdown-alert.markdown-alert-note {
+  border-left-color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-note .markdown-alert-title {
+  color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-important {
+  border-left-color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-important .markdown-alert-title {
+  color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-warning {
+  border-left-color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-warning .markdown-alert-title {
+  color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-tip {
+  border-left-color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-tip .markdown-alert-title {
+  color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-caution {
+  border-left-color: var(--color-caution);
+}
+
+.markdown-alert.markdown-alert-caution .markdown-alert-title {
+  color: var(--color-caution);
+}
+
+</style>
+        
+        </head>
+        <body class="vscode-body vscode-light">
+            <p><sub><a href="README.html">&lt;&lt;Back to README</a></sub></p>
+<h1 id="1-what-type-of-loops-are-there-in-js">1. What type of loops are there in JS?</h1>
+<ul>
+<li><a href="#1-what-type-of-loops-are-there-in-js">1. What type of loops are there in JS?</a>
+<ul>
+<li><a href="#11-looping-through-collections-of-data">1.1. Looping through collections of data</a>
+<ul>
+<li><a href="#111-tradicional-loop-or-for-loop">1.1.1. Tradicional loop or for loop</a></li>
+<li><a href="#112-the-forin-loop">1.1.2. The for...in loop.</a></li>
+<li><a href="#113-for-each-loop">1.1.3. For Each loop.</a></li>
+</ul>
+</li>
+<li><a href="#how-to-loop-through-a-collection-that-is-an-object">How to Loop Through a collection that is an Object</a></li>
+<li><a href="#while-and-dowhile-loops-in-javascript">While and Do/While Loops in JavaScript</a></li>
+</ul>
+</li>
+</ul>
+<h2 id="11-looping-through-collections-of-data">1.1. Looping through collections of data</h2>
+<p>One of the most common ways to use loops in javascript development is when you are <strong>looping through COLLECTIONS OF DATA.</strong></p>
+<p>Let´s see an example where we create a player's array (an array of strings).</p>
+<p>var players = [
+'Altuve',
+'Bregman',
+'Correa',
+'Springer'
+];</p>
+<p>We're going to loop over it - <strong>two different ways</strong>. We're going to use two different <strong>types</strong> of what are called <strong>&quot;for loops&quot;.</strong></p>
+<h3 id="111-tradicional-loop-or-for-loop">1.1.1. Tradicional loop or for loop</h3>
+<p><strong>Syntax</strong></p>
+<p><code>for</code> and then inside parens (), we have to put an entire <strong>expression</strong>. We have to declare three things:</p>
+<ul>
+<li>
+<p>first, we have to declare a <strong>variable</strong> that is going to be used throughout the loop,
+for (var i = 0; )</p>
+</li>
+<li>
+<p>then we have to declare a <strong>condition</strong> which means we want you to keep looping until this condition is not met and then:
+for (var i = 0; i &lt; players.length);</p>
+</li>
+<li>
+<p>the last one is some type of <strong>incrementor</strong>.
+for (var i = 0; i &lt; players.length; i++)</p>
+</li>
+</ul>
+<pre><code class="language-JS"><span class="hljs-keyword">var</span> players = [
+  <span class="hljs-string">&#x27;Altuve&#x27;</span>,
+  <span class="hljs-string">&#x27;Bregman&#x27;</span>,
+  <span class="hljs-string">&#x27;Correa&#x27;</span>,
+  <span class="hljs-string">&#x27;Springer&#x27;</span>
+];
+
+
+<span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>; i &lt; players.<span class="hljs-property">length</span>; i++) {
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(players[i]);
+}
+</code></pre>
+<pre><code class="language-JS"><span class="hljs-keyword">var</span> members = [<span class="hljs-string">&quot;A&quot;</span>, <span class="hljs-string">&quot;B&quot;</span>, <span class="hljs-string">&quot;C&quot;</span>, <span class="hljs-string">&quot;D&quot;</span>, <span class="hljs-string">&quot;E&quot;</span>];
+
+<span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>; i &lt; members.<span class="hljs-property">length</span>; i++) {
+    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(members[i]);
+}
+
+<span class="hljs-comment">//Output:</span>
+<span class="hljs-comment">// &quot;A&quot;</span>
+<span class="hljs-comment">// &quot;B&quot;</span>
+<span class="hljs-comment">// &quot;C&quot;</span>
+<span class="hljs-comment">// &quot;D&quot;</span>
+<span class="hljs-comment">// &quot;E&quot;</span>
+</code></pre>
+<h3 id="112-the-forin-loop">1.1.2. The for...in loop.</h3>
+<p>A little bit  kind of for loop, and that is called the for-in loop.</p>
+<p><strong>Syntax</strong></p>
+<p>for + (<strong>iterable variable)</strong>. The common convention is to use whatever your array has a plural name (like players) and the common convention is to make your iterator variable to be singular(player).</p>
+<p>NOTE:
+One important thing to note, player doesn't actually represent the value. Player <strong>represents the index</strong>.</p>
+<br>
+<pre><code class="language-JS"><span class="hljs-keyword">var</span> players = [
+  <span class="hljs-string">&#x27;Altuve&#x27;</span>,
+  <span class="hljs-string">&#x27;Bregman&#x27;</span>,
+  <span class="hljs-string">&#x27;Correa&#x27;</span>,
+  <span class="hljs-string">&#x27;Springer&#x27;</span>
+];
+
+<span class="hljs-keyword">for</span> (  player <span class="hljs-keyword">in</span> players) {
+<span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(player); <span class="hljs-comment">// player represents the index</span>
+<span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(players[player]);
+}
+
+
+<span class="hljs-comment">// Outputs:</span>
+<span class="hljs-comment">// &quot;0&quot;</span>
+<span class="hljs-comment">// &quot;Altuve&quot;</span>
+<span class="hljs-comment">// &quot;1&quot;</span>
+<span class="hljs-comment">// &quot;Bregman&quot;</span>
+<span class="hljs-comment">// &quot;2&quot;</span>
+<span class="hljs-comment">// &quot;Correa&quot;</span>
+<span class="hljs-comment">// &quot;3&quot;</span>
+<span class="hljs-comment">// &quot;Springer&quot;</span>
+
+</code></pre>
+<p><strong>NOTE:  IMPORTANT !!!</strong></p>
+<p>We better <strong>add (var)</strong>, like this:</p>
+<pre><code class="language-JS"><span class="hljs-keyword">for</span> ( <span class="hljs-keyword">var</span> player <span class="hljs-keyword">in</span> players) {
+<span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(player); <span class="hljs-comment">// player represents the index</span>
+<span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(players[player]);
+}
+</code></pre>
+<p>Here are some considerations:</p>
+<p>-<strong>Scoping:</strong></p>
+<ul>
+<li>
+<p><strong>Without var:</strong> The player variable is implicitly global. If you accidentally use the same variable name elsewhere in your code, it could lead to unexpected behavior.</p>
+</li>
+<li>
+<p><strong>With var:</strong> The player variable is scoped to the loop, which is generally <strong>safer</strong>. It won’t interfere with other variables outside the loop.</p>
+</li>
+</ul>
+<p>-<strong>Best Practices:</strong></p>
+<ul>
+<li>
+<p><strong>Without var</strong> : Some developers consider it a best practice to avoid using for...in loops for arrays due to potential issues with non-numeric properties and order of iteration.</p>
+</li>
+<li>
+<p><strong>With var:</strong> Explicitly using var makes your intention clear and aligns with the typical usage of for...in loops for objects (where keys are not necessarily numeric).</p>
+</li>
+</ul>
+<p>-<strong>Consistency</strong>:</p>
+<ul>
+<li><strong>Without var:</strong> If you consistently use for...in loops without var, it’s fine. Just be aware of the potential scoping issues.</li>
+<li><strong>With var:</strong> Adding var ensures consistency across your codebase, especially if you also use for...in loops for objects.</li>
+</ul>
+<p>In summary, while both versions work, <strong>using (var) in the for...in loop is a good practice for maintaining consistent scoping and adhering to best practices.</strong> However, some developers prefer to avoid for...in loops altogether for arrays and use other constructs like <em>for loops</em> or <em>forEach</em> methods.</p>
+<h3 id="113-for-each-loop">1.1.3. For Each loop.</h3>
+<p>The <strong>more functional</strong> version of for loops are the For Each loop.</p>
+<pre><code class="language-JS">players.<span class="hljs-title function_">forEach</span>(<span class="hljs-keyword">function</span>(<span class="hljs-params">element</span>) {
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(element);
+});
+</code></pre>
+<p>It gives us the ability to place this inside of an object or placing this inside of another function we want to be able to iterate through.</p>
+<p>As you get into working with a framework such as angular or react you're going to see this type of design pattern quite a bit.</p>
+<h2 id="how-to-loop-through-a-collection-that-is-an-object">How to Loop Through a collection that is an Object</h2>
+<pre><code class="language-Js"><span class="hljs-keyword">var</span> student = {
+  <span class="hljs-attr">name</span>: <span class="hljs-string">&#x27;Kristine&#x27;</span>,
+  <span class="hljs-attr">age</span>: <span class="hljs-number">12</span>,
+  <span class="hljs-attr">city</span>: <span class="hljs-string">&#x27;Scottsdale&#x27;</span>
+};
+
+<span class="hljs-comment">// Other way is: </span>
+<span class="hljs-comment">//student.name;  --&gt; &quot;kristine&quot;</span>
+
+<span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> key <span class="hljs-keyword">in</span> student) {
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(key + <span class="hljs-string">&quot; =&gt; &quot;</span> + student[key]);
+}
+
+<span class="hljs-comment">// output:</span>
+<span class="hljs-comment">// name =&gt; Kristine</span>
+<span class="hljs-comment">// age =&gt; 12</span>
+<span class="hljs-comment">// city =&gt; Scottsdale</span>
+</code></pre>
+<h2 id="while-and-dowhile-loops-in-javascript">While and Do/While Loops in JavaScript</h2>
+<p>Not so popular as <em>for loops</em>.</p>
+<pre><code class="language-JS"><span class="hljs-keyword">var</span> players = [
+  <span class="hljs-string">&#x27;Altuve&#x27;</span>,
+  <span class="hljs-string">&#x27;Bregman&#x27;</span>,
+  <span class="hljs-string">&#x27;Correa&#x27;</span>,
+  <span class="hljs-string">&#x27;Springer&#x27;</span>
+];
+
+<span class="hljs-comment">// while loop:  ( if condition is initially false, the loop won&#x27;t execute at all)</span>
+<span class="hljs-comment">// initializes the loop control variable outside the loop.</span>
+<span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>;
+<span class="hljs-keyword">while</span> (i &lt; players.<span class="hljs-property">length</span>  <span class="hljs-comment">//condition) {</span>
+   <span class="hljs-comment">// Code to execute</span>
+  <span class="hljs-comment">// Loop control variable update</span>
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(players[i]);
+  i++;
+}
+
+
+<span class="hljs-comment">// do while loop:  (Always Executes at Least Once )</span>
+<span class="hljs-comment">// Code to execute</span>
+  <span class="hljs-comment">// Loop control variable initialization/update </span>
+<span class="hljs-keyword">var</span> i = <span class="hljs-number">21</span>;
+<span class="hljs-keyword">do</span> {
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(players[i]);
+  i++;
+} <span class="hljs-keyword">while</span> (i &lt; players.<span class="hljs-property">length</span>)
+
+</code></pre>
+<p>Pros and cons of <strong>while</strong> and <strong>do-while</strong> loops in JavaScript:</p>
+<ol>
+<li>
+<p><strong>While Loops</strong>:</p>
+<ul>
+<li><strong>Pros</strong>:
+<ul>
+<li><strong>Flexible Condition</strong>: While loops allow you to execute a block of code repeatedly as long as a specified condition remains true. This flexibility is useful <strong>when you don't know the exact number of iterations in advance</strong>.</li>
+<li><strong>Pre-Tested Condition</strong>: The condition is checked <strong>before each iteration</strong>, so <strong>if the condition is initially false, the loop won't execute at all.</strong></li>
+<li><strong>Common Usage</strong>: While loops are commonly used for scenarios where you need to repeat an action until a certain condition is met (e.g., reading data from a stream, waiting for user input).</li>
+</ul>
+</li>
+<li><strong>Cons</strong>:
+<ul>
+<li><strong>Potential Infinite Loop</strong>: If the condition never becomes false, you risk creating an infinite loop that can crash your program or freeze the browser.</li>
+<li><strong>Initialization Outside the Loop</strong>: You need to initialize the loop control <strong>variable outside the loop</strong>, which can lead to code duplication.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>Do-While Loops</strong>:</p>
+<ul>
+<li><strong>Pros</strong>:
+<ul>
+<li><strong>Always Executes at Least Once</strong>: Unlike while loops, do-while loops guarantee that the block of code executes at least once, <strong>even if the condition is initially false.</strong></li>
+<li><strong>Post-Tested Condition</strong>: The condition is checked after each iteration, so the loop executes first and then evaluates the condition.</li>
+<li><strong>Useful for Menu Systems</strong>: Do-while loops are commonly used for menu systems where you want to display a menu and prompt the user for input. ALso for games.</li>
+</ul>
+</li>
+<li><strong>Cons</strong>:
+<ul>
+<li><strong>Less Commonly Used</strong>: Do-while loops are less common than while loops because many scenarios don't require the &quot;always execute once&quot; behavior.</li>
+<li><strong>Initialization Inside the Loop</strong>: The loop control variable is initialized within the loop, which can be confusing for some developers.</li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+<p>In summary, choose between while and do-while loops based on your specific use case. While loops are more flexible but require careful condition management to avoid infinite loops. Do-while loops are useful when you need to ensure at least one execution and are commonly used for menu-driven applications.</p>
+<p>You can find some more information  about Loops in JavaScript here, at <a href="https://devcamp.com/trails/introduction-javascript-programming/campsites/javascript-while-for-loops/guides/guide-for-loops-javascript">DevCamp website.</a></p>
+<br>
+<p><a href="#top"> <span style="color: #f2f2f2; font-size: 30px;"><img src="file:////images/Top-Icon1.webp" alt="alt"></a></span></p>
+<p><sub><a href="README.html">&lt;&lt;Back to README</a></sub></p>
+
+            
+            
+        </body>
+        </html>

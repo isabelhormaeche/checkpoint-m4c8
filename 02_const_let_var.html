@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+        <html>
+        <head>
+            <meta charset="UTF-8">
+            <title>2&period; What are the differences between const&comma; let and var&quest;</title>
+            <style>
+/* From extension vscode.github */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+.vscode-dark img[src$=\#gh-light-mode-only],
+.vscode-light img[src$=\#gh-dark-mode-only],
+.vscode-high-contrast:not(.vscode-high-contrast-light) img[src$=\#gh-light-mode-only],
+.vscode-high-contrast-light img[src$=\#gh-dark-mode-only] {
+	display: none;
+}
+
+</style>
+            
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
+<style>
+            body {
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe WPC', 'Segoe UI', system-ui, 'Ubuntu', 'Droid Sans', sans-serif;
+                font-size: 14px;
+                line-height: 1.6;
+            }
+        </style>
+        <style>
+.task-list-item {
+    list-style-type: none;
+}
+
+.task-list-item-checkbox {
+    margin-left: -20px;
+    vertical-align: middle;
+    pointer-events: none;
+}
+</style>
+<style>
+:root {
+  --color-note: #0969da;
+  --color-tip: #1a7f37;
+  --color-warning: #9a6700;
+  --color-severe: #bc4c00;
+  --color-caution: #d1242f;
+  --color-important: #8250df;
+}
+
+</style>
+<style>
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-note: #2f81f7;
+    --color-tip: #3fb950;
+    --color-warning: #d29922;
+    --color-severe: #db6d28;
+    --color-caution: #f85149;
+    --color-important: #a371f7;
+  }
+}
+
+</style>
+<style>
+.markdown-alert {
+  padding: 0.5rem 1rem;
+  margin-bottom: 16px;
+  color: inherit;
+  border-left: .25em solid #888;
+}
+
+.markdown-alert>:first-child {
+  margin-top: 0
+}
+
+.markdown-alert>:last-child {
+  margin-bottom: 0
+}
+
+.markdown-alert .markdown-alert-title {
+  display: flex;
+  font-weight: 500;
+  align-items: center;
+  line-height: 1
+}
+
+.markdown-alert .markdown-alert-title .octicon {
+  margin-right: 0.5rem;
+  display: inline-block;
+  overflow: visible !important;
+  vertical-align: text-bottom;
+  fill: currentColor;
+}
+
+.markdown-alert.markdown-alert-note {
+  border-left-color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-note .markdown-alert-title {
+  color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-important {
+  border-left-color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-important .markdown-alert-title {
+  color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-warning {
+  border-left-color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-warning .markdown-alert-title {
+  color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-tip {
+  border-left-color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-tip .markdown-alert-title {
+  color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-caution {
+  border-left-color: var(--color-caution);
+}
+
+.markdown-alert.markdown-alert-caution .markdown-alert-title {
+  color: var(--color-caution);
+}
+
+</style>
+        
+        </head>
+        <body class="vscode-body vscode-light">
+            <p><sub><a href="README.html">&lt;&lt;Back to README</a></sub></p>
+<h1 id="2-what-are-the-differences-between-const-let-and-var">2. What are the differences between const, let and var?</h1>
+<p><img src="file:////images/JS%20var%20let%20const%20visual%20image%20by%203dCodeWorld.png" alt="alt"></p>
+<p>JavaScript <strong>var</strong> / <strong>let</strong> / <strong>const</strong> visual image <a href="https://www.youtube.com/@3dCodeWorld">by 3dCodeWorld.</a></p>
+<h2 id="variable-scope">VARIABLE SCOPE</h2>
+<p>Local vs global</p>
+<pre><code class="language-JS"><span class="hljs-keyword">var</span> userObj = {                      <span class="hljs-comment">// Global</span>
+<span class="hljs-attr">email</span>: <span class="hljs-string">&quot;sample@devcamp.com&quot;</span>,
+<span class="hljs-attr">fullName</span>: <span class="hljs-string">&quot;Kris Hud&quot;</span>
+}
+
+<span class="hljs-keyword">function</span> <span class="hljs-title function_">dashboardGreeting</span>(<span class="hljs-params"></span>){
+  <span class="hljs-keyword">var</span> userObj = {                     <span class="hljs-comment">//local</span>
+    <span class="hljs-attr">email</span>: <span class="hljs-string">&quot;sample@devcamp.com&quot;</span>,    
+    <span class="hljs-attr">fullName</span>: <span class="hljs-string">&quot;Pepa Smith&quot;</span>
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&quot;Hi there, &quot;</span>.<span class="hljs-title function_">concat</span>(userObj.<span class="hljs-property">fullName</span>));
+}
+}
+<span class="hljs-title function_">dashboardGreeting</span>();   <span class="hljs-comment">// Pepa Smith</span>
+<span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(userObj.<span class="hljs-property">fullName</span>); <span class="hljs-comment">// &quot;Kris Hud&quot;</span>
+</code></pre>
+<p>In this code it takes the object, it pull out the fullName and concat with our greeting.</p>
+<h2 id="issues">ISSUES:</h2>
+<p><strong>LOCAL VARIABLE</strong> (local to the function). Doesn´t override it. We named it the same as the frist var userObj and with the same values. But we can ONLY use them inside the fucntion.</p>
+<p>Everything outside of that it´s consider --&gt; OUT OF SCOPE --&gt; GLOBAL variable.</p>
+<p>ATTENTION!!! <strong>if we remove the (<strong>var</strong>) is not longer local but global!!!</strong> thus why it´s **very important **to put VAR or LET when you declare a variable, to avoid accidentally create a global variable.
+<br></p>
+<pre><code class="language-JS"><span class="hljs-keyword">function</span> <span class="hljs-title function_">dashboardGreeting</span>(<span class="hljs-params"></span>){
+  <span class="hljs-keyword">var</span> userObj = {                  <span class="hljs-comment">// don´t forget the (var)</span>
+    <span class="hljs-attr">email</span>: <span class="hljs-string">&quot;sample@devcamp.com&quot;</span>,    <span class="hljs-comment">//local</span>
+    <span class="hljs-attr">fullName</span>: <span class="hljs-string">&quot;Pepa Smith&quot;</span>
+  }   
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&quot;Hi there, &quot;</span>.<span class="hljs-title function_">concat</span>(userObj.<span class="hljs-property">fullName</span>));
+}
+
+
+<span class="hljs-title function_">dashboardGreeting</span>();
+<span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(userObj.<span class="hljs-property">fullName</span>);
+</code></pre>
+<br>
+<p>NOTE: <strong>BEST PRACTISE:</strong> Don´t put many variables outside functions or better, none!</p>
+<p>Let's see the <strong>differences</strong> between <code>const</code>, <code>let</code>, and <code>var</code> in JavaScript:</p>
+<p>Let’s use an everyday life analogy to understand var, let, and const:</p>
+<ol>
+<li><strong><code>var</code></strong>: (Community Blackboard):
+Imagine var as a community blackboard in a park. Anyone can write on it, erase it, or modify what’s written. However, because it’s in a public space, sometimes what you write might be changed by others, leading to confusion. This is like var being globally scoped and prone to being overwritten or causing conflicts.</li>
+</ol>
+<br>
+<p><img src="file:////images/var%20community%20blackboard%20by%20medium.png" alt="var image">
+<br>
+<strong>var</strong> (Community Blackboard), <a href="https://medium.com/@rithinmenezes/understanding-let-var-and-const-in-javascript-a-guide-to-variable-declarations-f271c5b8dc79">by Rithin menezes - Medium.com </a></p>
+<ul>
+<li><strong>Scope</strong>:
+<ul>
+<li>Globally scoped or function scoped.</li>
+<li>Declared outside a function: available for use throughout the entire window.</li>
+<li>Declared within a function: accessible only within that function.</li>
+</ul>
+</li>
+<li><strong>Re-declaration and Updates</strong>:
+<ul>
+<li>Can be re-declared and updated within its scope.</li>
+</ul>
+</li>
+<li><strong>Hoisting</strong>:
+<ul>
+<li>Hoisted to the top of its scope and initialized with <code>undefined</code>.</li>
+</ul>
+</li>
+<li><strong>Problem</strong>:
+<ul>
+<li>Inconsistent scoping behavior.</li>
+<li>Example:<pre><code class="language-javascript"><span class="hljs-keyword">var</span> greeter = <span class="hljs-string">&quot;hey hi&quot;</span>;
+<span class="hljs-keyword">var</span> times = <span class="hljs-number">4</span>;
+<span class="hljs-keyword">if</span> (times &gt; <span class="hljs-number">3</span>) {
+  <span class="hljs-keyword">var</span> greeter = <span class="hljs-string">&quot;say Hello instead&quot;</span>;
+}
+</code></pre>
+</li>
+</ul>
+</li>
+</ul>
+<br>
+<ol>
+<li><strong><code>let</code></strong>: (Personal Notebook):</li>
+</ol>
+<br>
+<p><img src="file:////images/Let%20(Personal%20Notebook).png" alt="var image">
+<br></p>
+<p><strong>let</strong> (Personal Notebook), <a href="https://medium.com/@rithinmenezes/understanding-let-var-and-const-in-javascript-a-guide-to-variable-declarations-f271c5b8dc79">by Rithin menezes - Medium.com </a></p>
+<p>Think of let as a page in your personal notebook. You can write notes, erase them, or change them, but only within that page. Once you turn the page, those notes are not applicable. This is similar to let being block-scoped, meaning it only exists within the specific set of curly braces <code>{}</code> where it’s declared.</p>
+<ul>
+<li><strong>Scope</strong>:
+<ul>
+<li>Block scoped (within curly braces <code>{}</code> ).</li>
+<li>Available only within the block where it's defined.</li>
+</ul>
+</li>
+<li><strong>Updates</strong>:
+<ul>
+<li>Can be updated (reassigned) within its scope.</li>
+</ul>
+</li>
+<li><strong>Hoisting</strong>:
+<ul>
+<li>Hoisted to the top of its scope but not initialized.</li>
+</ul>
+</li>
+<li><strong>Use Case</strong>:
+<ul>
+<li>When you have a variable that may change its value over time.</li>
+</ul>
+</li>
+</ul>
+<ol>
+<li><strong><code>const</code></strong> (Engraved Stone Tablet):</li>
+</ol>
+<br>
+<p><img src="file:////images/Const%20(Engraved%20Stone%20Tablet).png" alt="var image">
+<br>
+<strong>const</strong> (Engraved Stone Tablet), <a href="/images/">by Rithin menezes - Medium.com </a></p>
+<p>Consider const as an engraved stone tablet. Once you carve your message, it’s permanent. You can’t erase or change it. It’s great for important messages that must not be altered. This is akin to const in JavaScript, where once a value is assigned, it cannot be reassigned.</p>
+<ul>
+<li><strong>Scope</strong>:
+<ul>
+<li>Block scoped (within curly braces <code>{}</code> ).</li>
+<li>Available only within the block where it's defined.</li>
+</ul>
+</li>
+<li><strong>Immutability</strong>:
+<ul>
+<li>Cannot be updated or re-declared after initial assignment.</li>
+</ul>
+</li>
+<li><strong>Use Case</strong>:
+<ul>
+<li>For variables that should remain constant (improves readability).</li>
+</ul>
+</li>
+</ul>
+<p>Remember:</p>
+<ul>
+<li>Use <code>const</code> for constants.</li>
+<li>Use <code>let</code> when a variable may change.</li>
+<li>Avoid using <code>var</code> due to its inconsistent behavior.</li>
+</ul>
+<br>
+<h1 id="references">References</h1>
+<ul>
+<li>
+<p><a href="https://www.freecodecamp.org/news/var-let-and-const-whats-the-difference/">FreeCodeCamp: Var, Let, and Const – What's the Difference?</a></p>
+</li>
+<li>
+<p><a href="https://www.youtube.com/@3dCodeWorld">3dCodeWorld: JavaScript for visual learners course</a></p>
+</li>
+<li>
+<p><a href="https://medium.com/@rithinmenezes/understanding-let-var-and-const-in-javascript-a-guide-to-variable-declarations-f271c5b8dc79">Medium: Mastering JavaScript Variables: Understanding let, var, and const  </a></p>
+</li>
+</ul>
+<p><a href="#top"> <span style="color: #f2f2f2; font-size: 30px;"><img src="file:////images/Top-Icon1.webp" alt="alt"></a></span></p>
+<p><sub><a href="README.html">&lt;&lt;Back to README</a></sub></p>
+
+            
+            
+        </body>
+        </html>

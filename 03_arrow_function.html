@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+        <html>
+        <head>
+            <meta charset="UTF-8">
+            <title>3&period; What is an arrow function&quest;</title>
+            <style>
+/* From extension vscode.github */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+.vscode-dark img[src$=\#gh-light-mode-only],
+.vscode-light img[src$=\#gh-dark-mode-only],
+.vscode-high-contrast:not(.vscode-high-contrast-light) img[src$=\#gh-light-mode-only],
+.vscode-high-contrast-light img[src$=\#gh-dark-mode-only] {
+	display: none;
+}
+
+</style>
+            <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.css">
+<link href="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.css" rel="stylesheet" type="text/css">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
+<style>
+            body {
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe WPC', 'Segoe UI', system-ui, 'Ubuntu', 'Droid Sans', sans-serif;
+                font-size: 14px;
+                line-height: 1.6;
+            }
+        </style>
+        <style>
+.task-list-item {
+    list-style-type: none;
+}
+
+.task-list-item-checkbox {
+    margin-left: -20px;
+    vertical-align: middle;
+    pointer-events: none;
+}
+</style>
+<style>
+:root {
+  --color-note: #0969da;
+  --color-tip: #1a7f37;
+  --color-warning: #9a6700;
+  --color-severe: #bc4c00;
+  --color-caution: #d1242f;
+  --color-important: #8250df;
+}
+
+</style>
+<style>
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-note: #2f81f7;
+    --color-tip: #3fb950;
+    --color-warning: #d29922;
+    --color-severe: #db6d28;
+    --color-caution: #f85149;
+    --color-important: #a371f7;
+  }
+}
+
+</style>
+<style>
+.markdown-alert {
+  padding: 0.5rem 1rem;
+  margin-bottom: 16px;
+  color: inherit;
+  border-left: .25em solid #888;
+}
+
+.markdown-alert>:first-child {
+  margin-top: 0
+}
+
+.markdown-alert>:last-child {
+  margin-bottom: 0
+}
+
+.markdown-alert .markdown-alert-title {
+  display: flex;
+  font-weight: 500;
+  align-items: center;
+  line-height: 1
+}
+
+.markdown-alert .markdown-alert-title .octicon {
+  margin-right: 0.5rem;
+  display: inline-block;
+  overflow: visible !important;
+  vertical-align: text-bottom;
+  fill: currentColor;
+}
+
+.markdown-alert.markdown-alert-note {
+  border-left-color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-note .markdown-alert-title {
+  color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-important {
+  border-left-color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-important .markdown-alert-title {
+  color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-warning {
+  border-left-color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-warning .markdown-alert-title {
+  color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-tip {
+  border-left-color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-tip .markdown-alert-title {
+  color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-caution {
+  border-left-color: var(--color-caution);
+}
+
+.markdown-alert.markdown-alert-caution .markdown-alert-title {
+  color: var(--color-caution);
+}
+
+</style>
+        
+        </head>
+        <body class="vscode-body vscode-light">
+            <p><sub><a href="README.html">&lt;&lt;Back to README</a></sub></p>
+<h1 id="3-what-is-an-arrow-function">3. What is an arrow function?</h1>
+<p>An <strong>arrow function</strong> in JavaScript <strong>is a concise way to define a function</strong> using the (<strong><code>=&gt;</code></strong>) syntax. It omits the <code>function</code> keyword and allows for shorter function expressions, especially when the function body consists of a single expression.</p>
+<p>Unlike regular functions, arrow functions <strong>do not create their own <code>this</code></strong> binding and <strong>do not have an <code>arguments</code> object</strong>.</p>
+<p>Let´s see the main <strong>differences between arrow functions and regular functions</strong> in JavaScript:</p>
+<ol>
+<li>
+<p><strong>Syntax:</strong></p>
+<ul>
+<li>Regular functions are defined using the <code>function</code> keyword, followed by a function name, parameters, and a function body enclosed in curly braces.</li>
+<li>Arrow functions have a shorter syntax. They are defined using the <code>=&gt;</code> (fat arrow) syntax and omit the <code>function</code> keyword and curly braces if the function body consists of a single expression.</li>
+</ul>
+</li>
+<li>
+<p><strong>Arguments Object:</strong></p>
+<ul>
+<li>Regular functions have an <code>arguments</code> object that contains the arguments passed to the function when called. You can access individual arguments using indices (e.g., <code>arguments[0]</code>).</li>
+<li>Arrow functions do not have their own <code>arguments</code> object. Attempting to use <code>arguments</code> within an arrow function will result in a reference error.</li>
+</ul>
+</li>
+<li>
+<p><strong><code>this</code> Binding:</strong></p>
+<ul>
+<li>Regular functions create their own <code>this</code> binding, which refers to the object that calls the function.</li>
+<li>Arrow functions do not create their own <code>this</code> binding. Instead, they lexically inherit <code>this</code> from the surrounding code (the enclosing function or global context).</li>
+</ul>
+</li>
+<li>
+<p><strong>One-Liner Functions:</strong></p>
+<ul>
+<li>Arrow functions allow for concise one-liner functions. If the function body consists of a single expression, you can omit the curly braces and the <code>return</code> keyword.</li>
+</ul>
+</li>
+</ol>
+<p>Here's an example to illustrate the differences:</p>
+<pre><code class="language-javascript"><span class="hljs-comment">// Regular function</span>
+<span class="hljs-keyword">function</span> <span class="hljs-title function_">multiply</span>(<span class="hljs-params">num1, num2</span>) {
+  <span class="hljs-keyword">const</span> result = num1 * num2;
+  <span class="hljs-keyword">return</span> result;
+}
+
+<span class="hljs-comment">// Equivalent arrow function</span>
+<span class="hljs-keyword">const</span> <span class="hljs-title function_">multiplyArrow</span> = (<span class="hljs-params">num1, num2</span>) =&gt; num1 * num2;
+
+<span class="hljs-comment">// Accessing arguments (only works in regular functions)</span>
+<span class="hljs-keyword">function</span> <span class="hljs-title function_">print</span>(<span class="hljs-params"></span>) {
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-variable language_">arguments</span>);
+}
+
+<span class="hljs-comment">// Using an arrow function (results in a reference error)</span>
+<span class="hljs-keyword">const</span> <span class="hljs-title function_">printArrow</span> = (<span class="hljs-params"></span>) =&gt; {
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-variable language_">arguments</span>);
+}
+
+<span class="hljs-comment">// `this` binding in regular functions</span>
+<span class="hljs-keyword">const</span> obj = {
+  <span class="hljs-attr">name</span>: <span class="hljs-string">&#x27;deeecode&#x27;</span>,
+  <span class="hljs-attr">print</span>: <span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) {
+    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-variable language_">this</span>);
+  }
+};
+
+<span class="hljs-comment">// `this` binding in arrow functions (inherits from surrounding context)</span>
+<span class="hljs-keyword">const</span> objArrow = {
+  <span class="hljs-attr">name</span>: <span class="hljs-string">&#x27;deeecode&#x27;</span>,
+  <span class="hljs-attr">print</span>: <span class="hljs-function">() =&gt;</span> {
+    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-variable language_">this</span>); <span class="hljs-comment">// Logs the global window object</span>
+  }
+};
+</code></pre>
+<h1 id="how-arrow-functions-work-with-this">How Arrow Functions Work with ‘this’</h1>
+<pre><code class="language-JS"><span class="hljs-keyword">function</span> <span class="hljs-title function_">Invoice</span>(<span class="hljs-params">subTotal</span>) {
+  <span class="hljs-variable language_">this</span>.<span class="hljs-property">taxRate</span> = <span class="hljs-number">0.06</span>;
+  <span class="hljs-variable language_">this</span>.<span class="hljs-property">subTotal</span> = subTotal;
+  
+  <span class="hljs-variable language_">this</span>.<span class="hljs-property">total</span> = <span class="hljs-built_in">setInterval</span>(<span class="hljs-function">() =&gt;</span> {
+    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>((<span class="hljs-variable language_">this</span>.<span class="hljs-property">taxRate</span> * <span class="hljs-variable language_">this</span>.<span class="hljs-property">subTotal</span>) + <span class="hljs-variable language_">this</span>.<span class="hljs-property">subTotal</span>);
+    <span class="hljs-comment">//console.log(this);</span>
+  }, <span class="hljs-number">2000</span>);
+}
+
+<span class="hljs-keyword">const</span> inv = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Invoice</span>(<span class="hljs-number">200</span>);  <span class="hljs-comment">// 0.06</span>
+<span class="hljs-comment">//console.log(inv.taxRate); //attribute insed the object</span>
+
+<span class="hljs-comment">/*
+// [object Object] 
+{
+  &quot;taxRate&quot;: 0.06,
+  &quot;subTotal&quot;: 200,
+  &quot;total&quot;: 1
+}
+//212
+</span></code></pre>
+<p><strong>Explanation:</strong></p>
+<ul>
+<li>
+<p>The Invoice constructor function takes:</p>
+<ul>
+<li>a <strong>subTotal</strong> argument and sets it as an attribute (<strong>this.subTotal</strong>) on the newly created object.</li>
+<li>The <strong>this.taxRate</strong> attribute is also set to 0.06.</li>
+</ul>
+</li>
+<li>
+<p>The <strong>this.total</strong> property is assigned a reference to a <strong>setInterval function</strong> that calculates the total every 2 seconds using the corrected formula.</p>
+</li>
+<li>
+<p>When you create an instance of Invoice with <strong>const inv = new Invoice(200)</strong>; it  initializes the subTotal and calculates the total.</p>
+</li>
+</ul>
+<p><strong>Other way:</strong></p>
+<pre><code class="language-JS"><span class="hljs-keyword">function</span> <span class="hljs-title function_">Invoice</span>(<span class="hljs-params">subTotal</span>) {
+  <span class="hljs-variable language_">this</span>.<span class="hljs-property">taxRate</span> = <span class="hljs-number">0.06</span>;
+  <span class="hljs-variable language_">this</span>.<span class="hljs-property">subTotal</span> = subTotal;
+
+  <span class="hljs-comment">// Calculate the total and store it in a variable</span>
+  <span class="hljs-keyword">const</span> <span class="hljs-title function_">calculateTotal</span> = (<span class="hljs-params"></span>) =&gt; {
+    <span class="hljs-keyword">const</span> total = (<span class="hljs-variable language_">this</span>.<span class="hljs-property">taxRate</span> * <span class="hljs-variable language_">this</span>.<span class="hljs-property">subTotal</span>)+ <span class="hljs-variable language_">this</span>.<span class="hljs-property">subtotal</span>;
+    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">`Total: <span class="hljs-subst">${total}</span>`</span>);
+  };
+
+  <span class="hljs-comment">// Set up the interval to call the calculateTotal function every 2 seconds</span>
+  <span class="hljs-variable language_">this</span>.<span class="hljs-property">total</span> = <span class="hljs-built_in">setInterval</span>(calculateTotal, <span class="hljs-number">2000</span>);
+}
+
+<span class="hljs-keyword">const</span> inv = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Invoice</span>(<span class="hljs-number">200</span>); <span class="hljs-comment">// Creates an instance with a subtotal of 200</span>
+</code></pre>
+<p><strong>Coding Exercise Example</strong></p>
+<p>This code snippet represents an unfinished savings calculator. Your goal is to calculate 30 percent of this month's paycheck, totaled at $2000. Pass the paycheck amount in the correct spot and instantiate the object in order to return the correct deposit amount.</p>
+<pre><code class="language-JS"><span class="hljs-keyword">function</span> <span class="hljs-title function_">SavingCalc</span>(<span class="hljs-params">paycheck</span>) {
+  <span class="hljs-variable language_">this</span>.<span class="hljs-property">percent</span> = <span class="hljs-number">0.30</span>;
+  <span class="hljs-variable language_">this</span>.<span class="hljs-property">paycheck</span> = paycheck;
+
+  <span class="hljs-variable language_">this</span>.<span class="hljs-property">deposit</span> = <span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) {
+    <span class="hljs-keyword">return</span> (<span class="hljs-variable language_">this</span>.<span class="hljs-property">percent</span> * <span class="hljs-variable language_">this</span>.<span class="hljs-property">paycheck</span>)
+    
+  }
+}
+
+<span class="hljs-keyword">const</span> piggyBank = <span class="hljs-keyword">new</span> <span class="hljs-title class_">SavingCalc</span>(<span class="hljs-number">2000</span>); <span class="hljs-comment">// we pass the paycheck amount</span>
+<span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(piggyBank);
+<span class="hljs-comment">// [object Object] </span>
+<span class="hljs-comment">// {</span>
+<span class="hljs-comment">//   &quot;percent&quot;: 0.3,</span>
+<span class="hljs-comment">//   &quot;paycheck&quot;: 2000,</span>
+<span class="hljs-comment">//   &quot;deposit&quot;: function () {\n    return this.percent * this.paycheck;\n\n  }</span>
+<span class="hljs-comment">// }</span>
+
+<span class="hljs-comment">// We can console.log:</span>
+<span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(piggyBank.<span class="hljs-title function_">deposit</span>()); <span class="hljs-comment">// DON´T forget () because &quot;deposit&quot; has a function</span>
+
+
+<span class="hljs-comment">// other prints:</span>
+<span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(piggyBank.<span class="hljs-property">percent</span>); <span class="hljs-comment">//0.3</span>
+<span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(piggyBank.<span class="hljs-property">percent</span>.<span class="hljs-title function_">toFixed</span>(<span class="hljs-number">2</span>));
+<span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(piggyBank.<span class="hljs-property">paycheck</span>); <span class="hljs-comment">// 2000</span>
+
+<span class="hljs-comment">// or we can keep it in a const and cosole log that:</span>
+<span class="hljs-keyword">const</span> depositAmount = piggyBank.<span class="hljs-title function_">deposit</span>();
+<span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">`Your deposit amount is $<span class="hljs-subst">${depositAmount.toFixed(<span class="hljs-number">2</span>)}</span>`</span>);  <span class="hljs-comment">//&quot;Your deposit amount is $600.00&quot;</span>
+
+</code></pre>
+<h1 id="references">References</h1>
+<ul>
+<li>
+<p><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/Arrow_functions">https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/Arrow_functions</a></p>
+</li>
+<li>
+<p><a href="https://www.freecodecamp.org/news/the-difference-between-arrow-functions-and-normal-functions/">https://www.freecodecamp.org/news/the-difference-between-arrow-functions-and-normal-functions/</a></p>
+</li>
+</ul>
+<p><a href="#top"><span style="color: #f2f2f2; font-size: 30px;"><img src="file:////images/Top-Icon1.webp" alt="alt"></a></span></p>
+<br>
+<p><sub><a href="README.html">&lt;&lt;Back to README</a></sub></p>
+
+            <script async src="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.js"></script>
+            
+        </body>
+        </html>

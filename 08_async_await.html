@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+        <html>
+        <head>
+            <meta charset="UTF-8">
+            <title>8&period; What do async and await do for us&quest;</title>
+            <style>
+/* From extension vscode.github */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+.vscode-dark img[src$=\#gh-light-mode-only],
+.vscode-light img[src$=\#gh-dark-mode-only],
+.vscode-high-contrast:not(.vscode-high-contrast-light) img[src$=\#gh-light-mode-only],
+.vscode-high-contrast-light img[src$=\#gh-dark-mode-only] {
+	display: none;
+}
+
+</style>
+            
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
+<style>
+            body {
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe WPC', 'Segoe UI', system-ui, 'Ubuntu', 'Droid Sans', sans-serif;
+                font-size: 14px;
+                line-height: 1.6;
+            }
+        </style>
+        <style>
+.task-list-item {
+    list-style-type: none;
+}
+
+.task-list-item-checkbox {
+    margin-left: -20px;
+    vertical-align: middle;
+    pointer-events: none;
+}
+</style>
+<style>
+:root {
+  --color-note: #0969da;
+  --color-tip: #1a7f37;
+  --color-warning: #9a6700;
+  --color-severe: #bc4c00;
+  --color-caution: #d1242f;
+  --color-important: #8250df;
+}
+
+</style>
+<style>
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-note: #2f81f7;
+    --color-tip: #3fb950;
+    --color-warning: #d29922;
+    --color-severe: #db6d28;
+    --color-caution: #f85149;
+    --color-important: #a371f7;
+  }
+}
+
+</style>
+<style>
+.markdown-alert {
+  padding: 0.5rem 1rem;
+  margin-bottom: 16px;
+  color: inherit;
+  border-left: .25em solid #888;
+}
+
+.markdown-alert>:first-child {
+  margin-top: 0
+}
+
+.markdown-alert>:last-child {
+  margin-bottom: 0
+}
+
+.markdown-alert .markdown-alert-title {
+  display: flex;
+  font-weight: 500;
+  align-items: center;
+  line-height: 1
+}
+
+.markdown-alert .markdown-alert-title .octicon {
+  margin-right: 0.5rem;
+  display: inline-block;
+  overflow: visible !important;
+  vertical-align: text-bottom;
+  fill: currentColor;
+}
+
+.markdown-alert.markdown-alert-note {
+  border-left-color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-note .markdown-alert-title {
+  color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-important {
+  border-left-color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-important .markdown-alert-title {
+  color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-warning {
+  border-left-color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-warning .markdown-alert-title {
+  color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-tip {
+  border-left-color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-tip .markdown-alert-title {
+  color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-caution {
+  border-left-color: var(--color-caution);
+}
+
+.markdown-alert.markdown-alert-caution .markdown-alert-title {
+  color: var(--color-caution);
+}
+
+</style>
+        
+        </head>
+        <body class="vscode-body vscode-light">
+            <p><sub><a href="README.html">&lt;&lt;Back to README</a></sub></p>
+<h1 id="8-what-do-async-and-await-do-for-us">8. What do async and await do for us?</h1>
+<ul>
+<li><a href="#8-what-do-async-and-await-do-for-us">8. What do async and await do for us?</a>
+<ul>
+<li><a href="#introduction-and-syntax">Introduction and Syntax</a></li>
+<li><a href="#combining-async--await-with-closures-to-ensure-all-processes-have-run">Combining Async / Await with Closures to Ensure All Processes Have Run</a></li>
+<li><a href="#using-async--await-for-communicating-with-outside-apis-in-javascript">Using Async / Await for Communicating with Outside APIs in JavaScript</a></li>
+<li><a href="#implementing-error-handling-in-a-javascript-async--await-function">Implementing Error Handling In a JavaScript Async / Await Function</a></li>
+<li><a href="#references">References</a></li>
+</ul>
+</li>
+</ul>
+<br>
+<h2 id="introduction-and-syntax">Introduction and Syntax</h2>
+<p>In JavaScript, due to its asynchronous nature, managing the order in which functions are called and returned can become complex, especially when dealing with asynchronous tasks that take several seconds or longer. However, the async and await functions simplify this process, providing a <strong>more efficient and readable way to handle asynchronous operations.</strong></p>
+<p>It allow us to simply declare a list of when we want each one of several processes to occur in the order we want them to occur.</p>
+<pre><code class="language-Note:">Note: The purpose of async/await is to simplify the syntax necessary to consume promise-based APIs. The behavior of async/await is similar to combining generators and promises.
+</code></pre>
+<p>Use of async and await enables the use of ordinary <a href="#implementing-error-handling-in-a-javascript-async--await-function"><strong>try / catch blocks</strong></a> around asynchronous code.</p>
+<br>
+<p><strong>Async Syntax</strong></p>
+<p>The keyword <code>async</code> before a function makes the function return a <strong>promise</strong>:
+<br></p>
+<pre><code class="language-JS"><span class="hljs-keyword">async</span> <span class="hljs-keyword">function</span> <span class="hljs-title function_">nameFunction</span>(<span class="hljs-params">param0</span>) {
+  statements
+}
+<span class="hljs-keyword">async</span> <span class="hljs-keyword">function</span> <span class="hljs-title function_">nameFunction</span>(<span class="hljs-params">param0, param1</span>) {
+  statements
+}
+<span class="hljs-keyword">async</span> <span class="hljs-keyword">function</span> <span class="hljs-title function_">nameFunction</span>(<span class="hljs-params">param0, param1, <span class="hljs-comment">/* …, */</span> paramN</span>) {
+  statements
+}
+</code></pre>
+<br>
+<p>An <strong>async function</strong> declaration creates an AsyncFunction <strong>object</strong>. Each time when an async function is called, <strong>it returns a new <a href="07_promise.html">Promise</a> (even if you don’t explicitly return one)</strong> which will be resolved with the value returned by the async function, or rejected with an exception uncaught within the async function.</p>
+<p>If you forget to return a promise, your function might not behave as expected. <strong>Always ensure your async functions return promises.</strong></p>
+<p><strong>Example</strong></p>
+<pre><code class="language-JS"><span class="hljs-keyword">async</span> <span class="hljs-keyword">function</span> <span class="hljs-title function_">myFunction</span>(<span class="hljs-params"></span>) {
+  <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;Hello&quot;</span>;
+}
+<span class="hljs-title class_">Is</span> the same <span class="hljs-attr">as</span>:
+
+<span class="hljs-keyword">function</span> <span class="hljs-title function_">myFunction</span>(<span class="hljs-params"></span>) {
+  <span class="hljs-keyword">return</span> <span class="hljs-title class_">Promise</span>.<span class="hljs-title function_">resolve</span>(<span class="hljs-string">&quot;Hello&quot;</span>);
+}
+</code></pre>
+<br>
+<p><strong>Await expressions</strong></p>
+<p>Async functions can contain zero or more await expressions. <strong>Await expressions</strong> make promise-returning functions behave as though they're synchronous by <strong>suspending execution until the returned promise is fulfilled or rejected.</strong> The resolved value of the promise is treated as the return value of the await expression.</p>
+<p><strong>Be aware of the execution order to avoid unexpected results.</strong> Although await makes asynchronous code look synchronous, <strong>it doesn’t change the order of execution</strong>.
+Code after an await expression will only run once the awaited promise resolves.</p>
+<p><strong>Double-check that the expression following await is a promise.</strong> Await can <strong>only be used with promises</strong> (or objects with a .then() method).
+If you accidentally use it on a non-promise value, it won’t pause execution as expected.</p>
+<br>
+<p><strong>Await Syntax</strong></p>
+<p>The <strong><code>await</code></strong> keyword can only be used <strong>inside an async function</strong>.
+If you try to use it outside of an async context, you’ll encounter a syntax error.</p>
+<p>The await keyword makes the function pause the execution and wait for a resolved promise before it continues:</p>
+<p>let value = await promise;</p>
+<p><strong>Note: Overusing await in a Loop:</strong></p>
+<p>Using await inside a loop can lead to performance issues.
+If you have a loop that makes multiple asynchronous calls, consider using <a href="07_promise.html">Promise.all()</a> to parallelize those calls instead of awaiting each one individually.
+<br></p>
+<pre><code class="language-JS"><span class="hljs-title class_">Basic</span> <span class="hljs-title class_">Syntax</span>
+<span class="hljs-keyword">async</span> <span class="hljs-keyword">function</span> <span class="hljs-title function_">myDisplay</span>(<span class="hljs-params"></span>) {
+  <span class="hljs-keyword">let</span> myPromise = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Promise</span>(<span class="hljs-keyword">function</span>(<span class="hljs-params">resolve, reject</span>) {
+    <span class="hljs-title function_">resolve</span>(<span class="hljs-string">&quot;I love You !!&quot;</span>);
+  });
+  <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">getElementById</span>(<span class="hljs-string">&quot;demo&quot;</span>).<span class="hljs-property">innerHTML</span> = <span class="hljs-keyword">await</span> myPromise;
+}
+
+<span class="hljs-title function_">myDisplay</span>();
+</code></pre>
+<br>
+<p>The two arguments (resolve and reject) are pre-defined by JavaScript.</p>
+<p>We will not create them, but call one of them when the executor function is ready.</p>
+<p>Very often we will not need a reject function</p>
+<br>
+<p><strong><code>setTimeout()</code> function</strong></p>
+<p>In JavaScript, the setTimeout() function is a powerful tool for managing asynchronous behavior.</p>
+<p>It allows us  to schedule the execution of a function or a piece of code after a specified delay (in milliseconds).</p>
+<p>It’s commonly used for tasks like delaying an action, creating animations, or handling time-based events.</p>
+<p>Remember that setTimeout() executes the function only once.</p>
+<p>Syntax:</p>
+<pre><code class="language-JS"><span class="hljs-built_in">setTimeout</span>(<span class="hljs-keyword">function</span>, milliseconds, param1, param2, ...);
+
+</code></pre>
+<ul>
+<li><em>function</em>: The function to execute after the specified delay.</li>
+<li><em>milliseconds</em>: The time (in milliseconds) to wait before executing the function.</li>
+<li><em>param1, param2, …</em> (optional): Additional parameters to pass to the function
+<br></li>
+</ul>
+<p>Example of waiting for a Timeout:
+<br></p>
+<pre><code class="language-JS"><span class="hljs-keyword">async</span> <span class="hljs-keyword">function</span> <span class="hljs-title function_">myDisplay</span>(<span class="hljs-params"></span>) {
+  <span class="hljs-keyword">let</span> myPromise = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Promise</span>(<span class="hljs-keyword">function</span>(<span class="hljs-params">resolve</span>) {
+    <span class="hljs-built_in">setTimeout</span>(<span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) {<span class="hljs-title function_">resolve</span>(<span class="hljs-string">&quot;I love You !!&quot;</span>);}, <span class="hljs-number">3000</span>);
+  });
+  <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">getElementById</span>(<span class="hljs-string">&quot;demo&quot;</span>).<span class="hljs-property">innerHTML</span> = <span class="hljs-keyword">await</span> myPromise;
+}
+
+<span class="hljs-title function_">myDisplay</span>();
+</code></pre>
+<br>
+<p><img src="file:////images/async%20setTimeout.png" alt="Example of Waiting for a Timeout">
+<a href="https://www.w3schools.com/Js/tryit.asp?filename=tryjs_async4">Try it yourself</a></p>
+<p>In summary, setTimeout() is a fundamental part of JavaScript’s asynchronous capabilities, allowing you to schedule tasks to run after a specified delay.</p>
+<br>
+<p><strong>A real-world Example</strong></p>
+<p>In real-world scenarios, certain tasks take time to complete. For example, when a user logs in, there might be server communication, database queries, or other processes that introduce delays.</p>
+<p>Let´s see an example of how to use promises and <code>async</code>/<code>await</code> to handle asynchronous tasks such as simulating user login and account updates  with specified delays.</p>
+<p>We are going to mimic what happens when you log a user into the system.</p>
+<p>We need to add a timer because the process doesn't happen right away. So we´re having the loging take two seconds. That's how long we want it to pause before it runs. In order to do that, we set a  <code>setTimeout</code>, where we pass in, a second argument, of 2000 milliseconds.</p>
+<br>
+<pre><code class="language-JS">
+<span class="hljs-comment">// Simulates user login with a 2-second delay</span>
+<span class="hljs-keyword">const</span> <span class="hljs-title function_">login</span> = (<span class="hljs-params"></span>) =&gt; {
+  <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Promise</span>(<span class="hljs-function">(<span class="hljs-params">resolve, reject</span>) =&gt;</span> {
+    <span class="hljs-built_in">setTimeout</span>(<span class="hljs-function">() =&gt;</span> {
+      <span class="hljs-title function_">resolve</span>(<span class="hljs-string">&#x27;User logged in...&#x27;</span>); <span class="hljs-comment">// Resolves after 2 seconds</span>
+    }, <span class="hljs-number">2000</span>); <span class="hljs-comment">// Pause two seconds before it runs</span>
+  });
+}
+
+<span class="hljs-comment">// Simulates updating account information with a 2-second delay</span>
+<span class="hljs-keyword">const</span> <span class="hljs-title function_">updateAccount</span> = (<span class="hljs-params"></span>) =&gt; {
+  <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Promise</span>(<span class="hljs-function">(<span class="hljs-params">resolve, reject</span>) =&gt;</span> {
+    <span class="hljs-built_in">setTimeout</span>(<span class="hljs-function">() =&gt;</span> {
+      <span class="hljs-title function_">resolve</span>(<span class="hljs-string">&#x27;Updating last login...&#x27;</span>); <span class="hljs-comment">// Resolves after 2 seconds</span>
+    }, <span class="hljs-number">2000</span>); <span class="hljs-comment">// Pause two seconds before it runs</span>
+  });
+}
+
+<span class="hljs-comment">// Asynchronous function to perform login activities</span>
+<span class="hljs-keyword">async</span> <span class="hljs-keyword">function</span> <span class="hljs-title function_">loginActivities</span>(<span class="hljs-params"></span>) {
+  <span class="hljs-keyword">const</span> returnedLogin = <span class="hljs-keyword">await</span> <span class="hljs-title function_">login</span>(); <span class="hljs-comment">// Wait for login to complete</span>
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(returnedLogin); <span class="hljs-comment">// Log the login status</span>
+
+  <span class="hljs-keyword">const</span> returnedUpdateAccount = <span class="hljs-keyword">await</span> <span class="hljs-title function_">updateAccount</span>(); <span class="hljs-comment">// Wait for account update</span>
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(returnedUpdateAccount); <span class="hljs-comment">// Log the account update status</span>
+}
+
+<span class="hljs-title function_">loginActivities</span>(); <span class="hljs-comment">// Execute the login activities</span>
+</code></pre>
+<br>
+<p>Code Explanation:</p>
+<ol>
+<li>
+<p><strong><code>login</code> Function:</strong></p>
+<ul>
+<li>returns a promise which inside sets a timeout of 2 seconds (2000 milliseconds).</li>
+<li>After the timeout, it resolves the promise with the string <code>'User logged in...'</code>.</li>
+</ul>
+</li>
+<li>
+<p><strong><code>updateAccount</code> Function:</strong></p>
+<ul>
+<li>also returns a promise.</li>
+<li>After a 2-second timeout, resolves the promise with the string <code>'Updating last login...'</code>.</li>
+</ul>
+</li>
+<li>
+<p><strong><code>loginActivities</code> Function (Async Function):</strong></p>
+<ul>
+<li>is declared as an <code>async</code> function.</li>
+<li><strong>awaits</strong> the result of the <code>login()</code> function, storing it in <code>returnedLogin</code>.</li>
+<li>The resolved value (in this case, <code>'User logged in...'</code>) is logged to the console.</li>
+<li></li>
+<li>Next, it <strong>awaits</strong> the result of the <code>updateAccount()</code> function, storing it in <code>returnedUpdateAccount</code>.</li>
+<li>Again, the resolved value (in this case, <code>'Updating last login...'</code>) is logged to the console.</li>
+</ul>
+</li>
+<li>
+<p><strong>Execution:</strong></p>
+<ul>
+<li>When you call <code>loginActivities()</code>, it sequentially logs the login status and account update status after the specified delays.</li>
+<li>But, in this example, if the <code>login()</code> function is rejected (i.e., its promise is rejected), the subsequent <code>updateAccount()</code> function will <strong>not</strong> run.</li>
+</ul>
+</li>
+</ol>
+<br>
+<h2 id="combining-async--await-with-closures-to-ensure-all-processes-have-run">Combining Async / Await with Closures to Ensure All Processes Have Run</h2>
+<p>Continuing the earlier example, we can also choose to run a set of processes simultaneously rather than sequentially.</p>
+<p>Although the total time taken by all processes remains the same, we want the visual appearance (such as console logs or on-screen updates) to show them happening simultaneously, instead of one happening and the other happening a few seconds later.</p>
+<p>This approach creates a more responsive and efficient user experience, even though the underlying execution order remains unchanged.</p>
+<p>For that purpose we combine Async / Await with Closures.</p>
+<p>Remember that a <strong>closure</strong> is simply a function that can be <strong>wrapped inside of a variable</strong> and then it <strong>can be passed into other functions</strong>.</p>
+<p><strong>Syntax</strong></p>
+<p>Make sure to remove the parens ( ) after <code>await login</code> because now we're not treating this like a function anymore. Now we're just treating it like a normal <strong>argument</strong> that is passed in.</p>
+<p>So we´re calling these two functions (login() and updateAccount()) and wrapping them inside of <strong>arguments</strong> of login activities and then inside of that we´re simply referencing it.</p>
+<p>Because they return promises we can treat them exactly the same so we can call await on both of them. But by leveraging them as <strong>closures</strong> (instead of calling the functions directly) what our async loginActivities() function is going to do is:</p>
+<br>
+<pre><code class="language-JS"><span class="hljs-keyword">const</span> <span class="hljs-title function_">login</span> = (<span class="hljs-params"></span>) =&gt; {
+  <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Promise</span>(<span class="hljs-function">(<span class="hljs-params">resolve, reject</span>) =&gt;</span> {
+    <span class="hljs-built_in">setTimeout</span>(<span class="hljs-function">() =&gt;</span> {
+      <span class="hljs-title function_">resolve</span>(<span class="hljs-string">&#x27;User logged in...&#x27;</span>);
+    }, <span class="hljs-number">4000</span>);
+  });
+}
+
+<span class="hljs-keyword">const</span> <span class="hljs-title function_">updateAccount</span> = (<span class="hljs-params"></span>) =&gt; {
+  <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Promise</span>(<span class="hljs-function">(<span class="hljs-params">resolve, reject</span>) =&gt;</span> {
+    <span class="hljs-built_in">setTimeout</span>(<span class="hljs-function">() =&gt;</span> {
+      <span class="hljs-title function_">resolve</span>(<span class="hljs-string">&#x27;Updating last login...&#x27;</span>);
+    }, <span class="hljs-number">2000</span>);
+  });
+}
+
+<span class="hljs-keyword">async</span> <span class="hljs-keyword">function</span> <span class="hljs-title function_">loginActivities</span>(<span class="hljs-params">login, updateAccount</span>) {
+  <span class="hljs-keyword">const</span> returnedLogin = <span class="hljs-keyword">await</span> login;
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(returnedLogin);
+
+  <span class="hljs-keyword">const</span> returnedUpdateAccount = <span class="hljs-keyword">await</span> updateAccount;
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(returnedUpdateAccount);
+}
+
+<span class="hljs-title function_">loginActivities</span>(<span class="hljs-title function_">login</span>(), <span class="hljs-title function_">updateAccount</span>());
+</code></pre>
+<br>
+<p>to wrap up the entire process and instead of waiting four seconds to run the first one and then two seconds to run the second one. It is not going to show anything on the screen until all the processes are complete (in six seconds total).</p>
+<p>Behind the scenes, it's doing exactly what it did before. The only difference is that now it is actually going to wait until all of those processes have run before it shows anything.</p>
+<p>The order that we dictate is going to be the only thing that matters and it's not going to matter how long they take.</p>
+<br>
+<pre><code class="language-JS"><span class="hljs-keyword">const</span> <span class="hljs-title function_">login</span> = (<span class="hljs-params"></span>) =&gt; {
+  <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Promise</span>(<span class="hljs-function">(<span class="hljs-params">resolve, reject</span>) =&gt;</span> {
+    <span class="hljs-built_in">setTimeout</span>(<span class="hljs-function">() =&gt;</span> {
+      <span class="hljs-title function_">resolve</span>(<span class="hljs-string">&#x27;User logged in...&#x27;</span>);
+    }, <span class="hljs-number">4000</span>);
+  });
+}
+
+<span class="hljs-keyword">const</span> <span class="hljs-title function_">updateAccount</span> = (<span class="hljs-params"></span>) =&gt; {
+  <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Promise</span>(<span class="hljs-function">(<span class="hljs-params">resolve, reject</span>) =&gt;</span> {
+    <span class="hljs-built_in">setTimeout</span>(<span class="hljs-function">() =&gt;</span> {
+      <span class="hljs-title function_">resolve</span>(<span class="hljs-string">&#x27;Updating last login...&#x27;</span>);
+    }, <span class="hljs-number">2000</span>);
+  });
+}
+
+<span class="hljs-keyword">async</span> <span class="hljs-keyword">function</span> <span class="hljs-title function_">loginActivities</span>(<span class="hljs-params">login, updateAccount</span>) {
+  <span class="hljs-keyword">const</span> returnedLogin = <span class="hljs-keyword">await</span> login;
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(returnedLogin);
+
+  <span class="hljs-keyword">const</span> returnedUpdateAccount = <span class="hljs-keyword">await</span> updateAccount;
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(returnedUpdateAccount);
+}
+
+<span class="hljs-title function_">loginActivities</span>(<span class="hljs-title function_">login</span>(), <span class="hljs-title function_">updateAccount</span>());
+</code></pre>
+<br>
+<p>In summary, by leveraging async and await and also by combining that with working with closures, we have the ability to control exactly when the processes are going to occur when the details are going to be returned and we're able to do it in a pretty easy to read manner.</p>
+<p>USES:</p>
+<p>Where this becomes very powerful is when we're working with data and we don't know when the return value is going to come back such as with APIs or database connections.</p>
+<br>
+<h2 id="using-async--await-for-communicating-with-outside-apis-in-javascript">Using Async / Await for Communicating with Outside APIs in JavaScript</h2>
+<p>We can use Async / Await for comminicating with outside APIs.</p>
+<p>In the example below, the queryApis()function fetches film data from the Star Wars API (swapi) and repository data from the GitHub API.</p>
+<p>It awaits the results of both API calls and logs the data to the console.
+The queryApis() function is then executed to start the process.</p>
+<pre><code class="language-JS"><span class="hljs-keyword">async</span> <span class="hljs-keyword">function</span> <span class="hljs-title function_">queryApis</span>(<span class="hljs-params"></span>) {
+  <span class="hljs-keyword">const</span> filmsPromise = <span class="hljs-title function_">fetch</span>(<span class="hljs-string">&quot;https://swapi.dev/api/films/&quot;</span>);
+  <span class="hljs-keyword">const</span> results = <span class="hljs-keyword">await</span> filmsPromise.<span class="hljs-title function_">then</span>(<span class="hljs-function"><span class="hljs-params">res</span> =&gt;</span> res.<span class="hljs-title function_">json</span>());
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(results);
+
+  <span class="hljs-keyword">const</span> reposPromise = <span class="hljs-title function_">fetch</span>(<span class="hljs-string">&#x27;https://api.github.com/users/jordanhudgens/repos&#x27;</span>);
+  <span class="hljs-keyword">const</span> repos = <span class="hljs-keyword">await</span> reposPromise.<span class="hljs-title function_">then</span>(<span class="hljs-function"><span class="hljs-params">res</span> =&gt;</span> res.<span class="hljs-title function_">json</span>());
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(repos);
+}
+<span class="hljs-title function_">queryApis</span>();
+
+</code></pre>
+<br>
+<p>What should happen is our API films results should be brought back from swapi and then, and only after then, it should go out and contact GitHub and then return the list of repos.</p>
+<p>Every single time we run it we always get our results (film results) first and then we get our repos second.</p>
+<p>No matter how many times we run this and even if the Swapi API is running slow for a few minutes and the GitHub one is running really fast it's still going to <strong>give these back to us in this specific order</strong> because we've wrapped this entire process up in the async and then we call await on each one of these promises.</p>
+<h2 id="implementing-error-handling-in-a-javascript-async--await-function">Implementing Error Handling In a JavaScript Async / Await Function</h2>
+<p>Suppossed that we had several different APIs that we were querying and we don't know which one failed, what we can do is have multiple <strong>try catch blocks.</strong> This way we can wrap up each individual promise inside of a function.</p>
+<p><strong>Example:</strong></p>
+<p>The queryApis function() fetches film data from the Star Wars API and repository data from the GitHub API.</p>
+<p>It <strong>awaits</strong> the results of both API calls and logs the data to the console.</p>
+<p>It uses <strong>try and catch blocks to handle any errors</strong> that might occur during the API requests.</p>
+<p>The data is logged to the console, along with error messages if any issues arise.</p>
+<br>
+<pre><code class="language-Js"><span class="hljs-comment">// Asynchronous function to query APIs</span>
+<span class="hljs-keyword">async</span> <span class="hljs-keyword">function</span> <span class="hljs-title function_">queryApis</span>(<span class="hljs-params"></span>) {
+  <span class="hljs-keyword">try</span> {
+    <span class="hljs-comment">// Fetch film data from the Star Wars API</span>
+    <span class="hljs-keyword">const</span> filmsPromise = <span class="hljs-title function_">fetch</span>(<span class="hljs-string">&quot;http://swapi.dev/api/films/&quot;</span>);
+    <span class="hljs-keyword">const</span> filmsData = <span class="hljs-keyword">await</span> filmsPromise.<span class="hljs-title function_">then</span>(<span class="hljs-function"><span class="hljs-params">res</span> =&gt;</span> res.<span class="hljs-title function_">json</span>());
+    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&quot;Film data:&quot;</span>, filmsData);
+  } <span class="hljs-keyword">catch</span>(err) {
+    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(err);
+    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&#x27;There was an error with the Swapi API&#x27;</span>);
+  }
+  
+  <span class="hljs-keyword">try</span> {
+    <span class="hljs-comment">// Fetch repository data from GitHub API</span>
+    <span class="hljs-keyword">const</span> reposPromise = <span class="hljs-title function_">fetch</span>(<span class="hljs-string">&#x27;https://api.github.com/users/jordanhudgens/repos&#x27;</span>);
+    <span class="hljs-keyword">const</span> reposData = <span class="hljs-keyword">await</span> reposPromise.<span class="hljs-title function_">then</span>(<span class="hljs-function"><span class="hljs-params">res</span> =&gt;</span> res.<span class="hljs-title function_">json</span>());
+    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&quot;Repository data:&quot;</span>, reposData);
+  } <span class="hljs-keyword">catch</span>(err) {
+    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(err);
+    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&#x27;There was an error with the GitHub API&#x27;</span>);
+  }
+}
+
+<span class="hljs-comment">// Execute the queryApis function</span>
+<span class="hljs-title function_">queryApis</span>();
+
+
+</code></pre>
+<p>We can  be more specific so we can console a log and say &quot;there was an error with the swapi API&quot;, for example, because we wrote http instead of https. But we still get all of our repos from GitHub.</p>
+<p>And so this is a way that you can wrap up each individual promise inside of a function.</p>
+<p><strong>When deciding whether to wrap asynchronous processes individually or together:</strong></p>
+<ul>
+<li>
+<p>*** Single try Block:**</p>
+<p>When you want the entire process to stop immediately upon encountering an error and prevent any further execution, use a single try-catch block.</p>
+<p><strong>Example</strong>: For connected promises (like authentication), it’s better to wrap them all together to avoid attempting subsequent promises after an error occurs.</p>
+<p>Suppose you have a series of promises related to user authentication (e.g., verifying credentials, checking permissions, etc.).</p>
+<p>If any authentication step fails, you’d want to stop the entire process immediately.</p>
+<p>In this case, wrap all authentication-related promises in a single try block.</p>
+<p>In essence, combining related promises in a single try-catch block ensures better error handling and prevents unnecessary execution.</p>
+</li>
+<li>
+<p>*** Multiple try Blocks:**</p>
+<p>When you want to handle specific errors individually and differently based on the context for different parts of your code.</p>
+<p>If one promise fails, the other try blocks can still execute independently.</p>
+<p>Example Scenario: Authentication Promises:</p>
+<p>Remember that the choice depends on your specific use case and how you want to handle errors. Both approaches have their place, and you can adapt them based on your application’s requirements.</p>
+</li>
+</ul>
+<br>
+<h2 id="references">References</h2>
+<ul>
+<li>
+<p><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/async_function">mdn Web docs: async function</a></p>
+</li>
+<li>
+<p><a href="https://basque.devcamp.com/pt-full-stack-development-javascript-python-react/guide/introduction-async-await-javascript">DevCamp: Introduction to Async and Await in JavaScript</a></p>
+</li>
+</ul>
+<p><a href="#top"> <span style="color: #f2f2f2; font-size: 30px;"><img src="file:////images/Top-Icon1.webp" alt="alt"></a></span>
+<br></p>
+<p><sub><a href="README.html">&lt;&lt;Back to README</a></sub></p>
+
+            
+            
+        </body>
+        </html>

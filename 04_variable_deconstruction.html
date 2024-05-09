@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+        <html>
+        <head>
+            <meta charset="UTF-8">
+            <title>4&period; What is variable deconstruction&quest;</title>
+            <style>
+/* From extension vscode.github */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+.vscode-dark img[src$=\#gh-light-mode-only],
+.vscode-light img[src$=\#gh-dark-mode-only],
+.vscode-high-contrast:not(.vscode-high-contrast-light) img[src$=\#gh-light-mode-only],
+.vscode-high-contrast-light img[src$=\#gh-dark-mode-only] {
+	display: none;
+}
+
+</style>
+            <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.css">
+<link href="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.css" rel="stylesheet" type="text/css">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
+<style>
+            body {
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe WPC', 'Segoe UI', system-ui, 'Ubuntu', 'Droid Sans', sans-serif;
+                font-size: 14px;
+                line-height: 1.6;
+            }
+        </style>
+        <style>
+.task-list-item {
+    list-style-type: none;
+}
+
+.task-list-item-checkbox {
+    margin-left: -20px;
+    vertical-align: middle;
+    pointer-events: none;
+}
+</style>
+<style>
+:root {
+  --color-note: #0969da;
+  --color-tip: #1a7f37;
+  --color-warning: #9a6700;
+  --color-severe: #bc4c00;
+  --color-caution: #d1242f;
+  --color-important: #8250df;
+}
+
+</style>
+<style>
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-note: #2f81f7;
+    --color-tip: #3fb950;
+    --color-warning: #d29922;
+    --color-severe: #db6d28;
+    --color-caution: #f85149;
+    --color-important: #a371f7;
+  }
+}
+
+</style>
+<style>
+.markdown-alert {
+  padding: 0.5rem 1rem;
+  margin-bottom: 16px;
+  color: inherit;
+  border-left: .25em solid #888;
+}
+
+.markdown-alert>:first-child {
+  margin-top: 0
+}
+
+.markdown-alert>:last-child {
+  margin-bottom: 0
+}
+
+.markdown-alert .markdown-alert-title {
+  display: flex;
+  font-weight: 500;
+  align-items: center;
+  line-height: 1
+}
+
+.markdown-alert .markdown-alert-title .octicon {
+  margin-right: 0.5rem;
+  display: inline-block;
+  overflow: visible !important;
+  vertical-align: text-bottom;
+  fill: currentColor;
+}
+
+.markdown-alert.markdown-alert-note {
+  border-left-color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-note .markdown-alert-title {
+  color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-important {
+  border-left-color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-important .markdown-alert-title {
+  color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-warning {
+  border-left-color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-warning .markdown-alert-title {
+  color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-tip {
+  border-left-color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-tip .markdown-alert-title {
+  color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-caution {
+  border-left-color: var(--color-caution);
+}
+
+.markdown-alert.markdown-alert-caution .markdown-alert-title {
+  color: var(--color-caution);
+}
+
+</style>
+        
+        </head>
+        <body class="vscode-body vscode-light">
+            <p><sub><a href="README.html">&lt;&lt;Back to README</a></sub></p>
+<h1 id="4-what-is-variable-deconstruction">4. What is variable deconstruction?</h1>
+<ul>
+<li><a href="#4-what-is-variable-deconstruction">4. What is variable deconstruction?</a></li>
+<li><a href="#how-to-swap-variable-values-in-javascript-with-variable-deconstruction">How to Swap Variable Values in JavaScript with Variable Deconstruction</a></li>
+<li><a href="#how-to-implement-array-destructuring-in-javascript">How to Implement Array Destructuring in JavaScript</a></li>
+<li><a href="#how-to-pass-javascript-objects-as-function-arguments-by-leveraging-deconstruction">How to Pass JavaScript Objects as Function Arguments by Leveraging Deconstruction</a></li>
+<li><a href="#adding-default-object-values-to-javascript-function-arguments">Adding Default Object Values to JavaScript Function Arguments</a></li>
+<li><a href="#references">References</a></li>
+</ul>
+<p>Why is this necessary?</p>
+<p>Imagine we want extract data from an array. Previously, how would this be done?</p>
+<pre><code class="language-JS"><span class="hljs-keyword">let</span> introduction = [<span class="hljs-string">&quot;Hello&quot;</span>, <span class="hljs-string">&quot;I&quot;</span> , <span class="hljs-string">&quot;am&quot;</span>, <span class="hljs-string">&quot;Sarah&quot;</span>];
+<span class="hljs-keyword">let</span> greeting = introduction[<span class="hljs-number">0</span>];
+<span class="hljs-keyword">let</span> name = introduction[<span class="hljs-number">3</span>];
+
+<span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(greeting);<span class="hljs-comment">//&quot;Hello&quot;</span>
+<span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(name);<span class="hljs-comment">//&quot;Sarah&quot;</span>
+</code></pre>
+<p>We can see that when we want to extract data from an array, we have to do the same thing over and over again.</p>
+<p>Now with destructuring, JS makes it easier to extract this data.</p>
+<p>Destructuring in JavaScript is a powerful feature. It allows you to unpack values from arrays or properties from objects into distinct variables.</p>
+<h1 id="how-to-swap-variable-values-in-javascript-with-variable-deconstruction">How to Swap Variable Values in JavaScript with Variable Deconstruction</h1>
+<p>You  have the ability, using <strong>variable deconstruction</strong>, to <strong>swap the variable values.</strong></p>
+<p><strong>Syntax</strong>:</p>
+<p>Remember to wrap it in brackets ( ).</p>
+<pre><code class="language-JS"><span class="hljs-keyword">let</span> playerOne = <span class="hljs-string">&#x27;Tiffany&#x27;</span>;
+<span class="hljs-keyword">let</span> playerTwo = <span class="hljs-string">&#x27;Kristine&#x27;</span>;
+
+[playerOne, playerTwo] = [playerTwo, playerOne]
+
+<span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(playerTwo); <span class="hljs-comment">// &quot;Tiffany&quot;</span>
+<span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">`
+Player One: <span class="hljs-subst">${playerOne}</span> 
+
+Player Two: <span class="hljs-subst">${playerTwo}</span>
+`</span>);
+
+<span class="hljs-comment">// Output:</span>
+<span class="hljs-comment">// &quot;</span>
+<span class="hljs-comment">// Player One: Kristine </span>
+
+<span class="hljs-comment">// Player Two: Tiffany</span>
+
+<span class="hljs-comment">// &quot;</span>
+</code></pre>
+<p><strong>Uses</strong></p>
+<p>This is very helpful in a number of different situations. One of the top ones is <strong>when you're implementing algorithms</strong>. One of the most common processes that you come into <strong>when you're implementing a merge or quick sort</strong> or any of these more advanced algorithms.</p>
+<p><strong>Coding Exercise Example</strong></p>
+<p>Inside the below function, <strong>swap the values</strong> of right lane and left lane.
+<br></p>
+<pre><code class="language-js"><span class="hljs-keyword">function</span> <span class="hljs-title function_">roadRage</span>(<span class="hljs-params"></span>) {
+    <span class="hljs-keyword">let</span> rightLane = <span class="hljs-string">&quot;Chevy&quot;</span>;
+    <span class="hljs-keyword">let</span> leftLane = <span class="hljs-string">&quot;Honda&quot;</span>;
+    
+    <span class="hljs-comment">//Write your code here to make the cars switch lanes</span>
+  [rightLane, leftLane] = [leftLane, rightLane]
+    
+    <span class="hljs-keyword">return</span> (<span class="hljs-string">`That <span class="hljs-subst">${rightLane}</span> and <span class="hljs-subst">${leftLane}</span> won&#x27;t pick a lane`</span>)
+    <span class="hljs-comment">//console.log(`That ${rightLane} and ${leftLane} won&#x27;t pick a lane`);</span>
+}
+
+<span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-title function_">roadRage</span>());
+</code></pre>
+<h1 id="how-to-implement-array-destructuring-in-javascript">How to Implement Array Destructuring in JavaScript</h1>
+<p>We can use destructuring and actually perform the same type of actions with <strong>objects</strong> and even with objects <strong>within arguments</strong> and be able to connect those into functions.</p>
+<p>How we can leverage destructuring with arrays?</p>
+<p>This is going to be something that you'll be using quite a bit, possibly even on a daily basis because it is such <strong>an efficient way of grabbing elements from an array and assigning them to variables.</strong></p>
+<pre><code class="language-JS"><span class="hljs-keyword">const</span> apiList = [
+  <span class="hljs-string">&#x27;https://api.dailysmarty.com/posts&#x27;</span>,
+  <span class="hljs-string">&#x27;https://api.github.com/users/jordanhudgens/repos&#x27;</span>,
+  <span class="hljs-string">&#x27;https://api.github.com/users/jordanhudgens&#x27;</span>
+]
+
+<span class="hljs-keyword">const</span> [posts, repos, profile] = apiList;
+
+<span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(posts);
+<span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(repos);
+<span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(profile);
+</code></pre>
+<p>In the above example we see how we can leverage <strong>array destructuring</strong> for being able to:</p>
+<ul>
+<li><strong>access each</strong> one of the elements in an array and</li>
+<li>then <strong>assign it to a variable</strong>.</li>
+</ul>
+<p>// CODING EXERCISE
+//Assign Kiwi, Iced Coffee, and Roses to their respective titles.</p>
+<pre><code class="language-JS"><span class="hljs-comment">//Create and name your array list here </span>
+<span class="hljs-keyword">const</span> groceryList = [<span class="hljs-string">&quot;Iced Coffee&quot;</span>,<span class="hljs-string">&quot;Roses&quot;</span>, <span class="hljs-string">&quot;Kiwi&quot;</span> ]
+
+<span class="hljs-keyword">const</span> [beverage, plant, fruit] = groceryList;<span class="hljs-comment">//insert your variable name here;</span>
+
+<span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(beverage);
+<span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(plant);
+<span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(fruit);
+
+<span class="hljs-comment">// output:</span>
+<span class="hljs-comment">// &quot;Iced Coffee&quot;</span>
+<span class="hljs-comment">// &quot;Roses&quot;</span>
+<span class="hljs-comment">// &quot;Kiwi&quot;</span>
+</code></pre>
+<h1 id="how-to-pass-javascript-objects-as-function-arguments-by-leveraging-deconstruction">How to Pass JavaScript Objects as Function Arguments by Leveraging Deconstruction</h1>
+<p>How we can perform deconstruction in using functions in javascript and more specifically how we <strong>can combine objects and functions</strong>, and have <strong>deconstruction connect those two for us</strong>.</p>
+<p><strong>Syntax</strong></p>
+<p>A function argument with a list, wrapped inside of {} curly braces.
+What it's looking for is  an object(instead of a variable being passed) .</p>
+<p>And  you can simply pass in an object that has these <strong>matching keys</strong> and  from there you can access these, directly right side of the function body itself.</p>
+<pre><code class="language-JS"><span class="hljs-keyword">const</span> user = {
+  <span class="hljs-attr">name</span>: <span class="hljs-string">&#x27;Kristine&#x27;</span>,
+  <span class="hljs-attr">email</span>: <span class="hljs-string">&#x27;kristine@devcamp.com&#x27;</span>
+}
+<span class="hljs-comment">//pass in an object that has these matching keys {}</span>
+<span class="hljs-keyword">const</span> <span class="hljs-title function_">renderUser</span> = (<span class="hljs-params">{ name, email }</span>) =&gt; {
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">`<span class="hljs-subst">${name}</span>: <span class="hljs-subst">${email}</span>`</span>);
+}
+
+<span class="hljs-title function_">renderUser</span>(user);
+
+<span class="hljs-comment">//Output:</span>
+<span class="hljs-comment">// Kristine: kristine@devcamp.com</span>
+
+</code></pre>
+<p>CODE EXPLANATION:</p>
+<ol>
+<li>
+<p>An object named <code>user</code> is defined with two properties:</p>
+<ul>
+<li><code>name</code> with the value <code>'Kristine'</code></li>
+<li><code>email</code> with the value <code>'kristine@devcamp.com'</code></li>
+</ul>
+</li>
+<li>
+<p>A function called <code>renderUser</code> is declared. It takes an <strong>object as its parameter</strong>, which is <strong>destructured to extract the <code>name</code> and <code>email</code> properties</strong>.</p>
+</li>
+<li>
+<p>Inside the <code>renderUser</code> function, a <code>console.log</code> statement is used to print a message to the console. The message includes the <code>name</code> and <code>email</code> properties from the input object, formatted as <code>${name}: ${email}</code>.</p>
+</li>
+<li>
+<p>The <code>renderUser</code> function is called with the <strong><code>user</code> object as an argument</strong>, resulting in the following output in the console: //Output //  Kristine: kristine @ <a href="http://devcamp.com">devcamp.com</a></p>
+</li>
+</ol>
+<p>In summary, this code defines an object representing a user and a function to display their name and email address. When <code>renderUser(user)</code> is called, it logs the user's information to the console.</p>
+<p>Other example:</p>
+<pre><code class="language-JS"><span class="hljs-keyword">const</span> bank = {
+  <span class="hljs-attr">accountNum</span>: <span class="hljs-number">454812259</span>,
+  <span class="hljs-attr">name</span>: <span class="hljs-string">&#x27;John Doe&#x27;</span>,
+  <span class="hljs-attr">balance</span>: <span class="hljs-number">1257</span>
+}
+
+<span class="hljs-keyword">const</span> <span class="hljs-title function_">bankInfo</span> = (<span class="hljs-params">{accountNum, name, balance}</span>) =&gt; {
+  <span class="hljs-keyword">return</span> (<span class="hljs-string">`Hi <span class="hljs-subst">${name}</span>! Your current balance is $<span class="hljs-subst">${balance}</span>. Account#: <span class="hljs-subst">${accountNum}</span>.`</span>)
+}
+
+
+<span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-title function_">bankInfo</span>(bank));
+
+<span class="hljs-comment">//Output:</span>
+<span class="hljs-comment">// &quot;Hi John Doe! Your current balance is $1257. Account#: 454812259.&quot;</span>
+</code></pre>
+<h1 id="adding-default-object-values-to-javascript-function-arguments">Adding Default Object Values to JavaScript Function Arguments</h1>
+<p>How you <strong>can set default values</strong> for specific keys and <a href="06_OOP.html"><strong>objects</strong></a> when you pass them into functions in javascript.</p>
+<p>In a production application you need to be able to take all of those kinds of things into account and if you didn't have a type of default setting like this you'd have to set up all kinds of nested conditionals,  etc...</p>
+<p>Note: Using older versions of Javascript you would not be able to use this type of syntax.</p>
+<p>This is something that is very <strong>helpful whenever you're working with data where you may not be confident about every single key being in there</strong> because you do know that we needed to have each one of these elements.</p>
+<p><strong>Uses:</strong></p>
+<p><strong>OpenGraphMetaData</strong></p>
+<p>Let's say if you're building an application and you want links to be able to be shared on sites like Facebook or Twitter. If you want those sites to pull in the title description and image, openGraph is a way you can do that.</p>
+<pre><code class="language-JS"><span class="hljs-keyword">const</span> blog = {
+  <span class="hljs-attr">title</span>: <span class="hljs-string">&#x27;My great post&#x27;</span>,
+  <span class="hljs-attr">summary</span>: <span class="hljs-string">&#x27;Summary of my post&#x27;</span>
+}
+
+<span class="hljs-keyword">const</span> <span class="hljs-title function_">openGraphMetadata</span> = (<span class="hljs-params">{ title, summary = <span class="hljs-string">&#x27;A DailySmarty Post&#x27;</span> }</span>) =&gt; {
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">`
+    og-title=<span class="hljs-subst">${title}</span>
+    og-description=<span class="hljs-subst">${summary}</span>
+  `</span>);
+}
+
+<span class="hljs-title function_">openGraphMetadata</span>(blog);
+</code></pre>
+<p><strong>Coding Exercise Example</strong></p>
+<p>Write an object called <strong>user</strong> with an <strong>attribute</strong> for <strong>username and status</strong>. You may set the username to whatever string you'd like but the status must be set to &quot;away&quot;.</p>
+<p>Then, write a function called <strong>loginEvent</strong> that <strong>changes the users status to &quot;active&quot;</strong>. (Instead of a console.log use return). It must return &quot;your_username is active&quot;</p>
+<pre><code class="language-JS">
+<span class="hljs-keyword">const</span> user = {
+    <span class="hljs-attr">username</span>: <span class="hljs-string">&#x27;Isa&#x27;</span>,
+    <span class="hljs-attr">status</span>: <span class="hljs-string">&#x27;away&#x27;</span>
+};
+
+
+<span class="hljs-keyword">const</span> <span class="hljs-title function_">loginEvent</span> = (<span class="hljs-params">{username, status = <span class="hljs-string">&#x27;active&#x27;</span>}</span>) =&gt;{
+
+    <span class="hljs-comment">// Here you must place your variable with the status property and assign it the value &quot;active&quot;</span>
+    user.<span class="hljs-property">status</span> = <span class="hljs-string">&quot;active&quot;</span>;
+
+    <span class="hljs-keyword">return</span> <span class="hljs-string">`<span class="hljs-subst">${username}</span> is <span class="hljs-subst">${user.status}</span>`</span>;
+};
+</code></pre>
+<br>
+<h1 id="references">References</h1>
+<ul>
+<li><a href="https://www.freecodecamp.org/news/array-and-object-destructuring-in-javascript/">How to Use Array and Object Destructuring in JavaScript</a></li>
+<li><a href="https://basque.devcamp.com/pt-full-stack-development-javascript-python-react/guide/how-to-swap-variable-values-javascript-variable-deconstruction">DevCamp: Deconstruction</a></li>
+</ul>
+<br>
+<p><a href="#top"> <span style="color: #f2f2f2; font-size: 30px;"><img src="file:////images/Top-Icon1.webp" alt="alt"></a></span></p>
+<br>
+<p><sub><a href="README.html">&lt;&lt;Back to README</a></sub></p>
+
+            <script async src="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.js"></script>
+            
+        </body>
+        </html>

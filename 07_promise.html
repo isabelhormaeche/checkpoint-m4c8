@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+        <html>
+        <head>
+            <meta charset="UTF-8">
+            <title>7&period; What is a promise in JS&quest;</title>
+            <style>
+/* From extension vscode.github */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+.vscode-dark img[src$=\#gh-light-mode-only],
+.vscode-light img[src$=\#gh-dark-mode-only],
+.vscode-high-contrast:not(.vscode-high-contrast-light) img[src$=\#gh-light-mode-only],
+.vscode-high-contrast-light img[src$=\#gh-dark-mode-only] {
+	display: none;
+}
+
+</style>
+            
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
+<style>
+            body {
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe WPC', 'Segoe UI', system-ui, 'Ubuntu', 'Droid Sans', sans-serif;
+                font-size: 14px;
+                line-height: 1.6;
+            }
+        </style>
+        <style>
+.task-list-item {
+    list-style-type: none;
+}
+
+.task-list-item-checkbox {
+    margin-left: -20px;
+    vertical-align: middle;
+    pointer-events: none;
+}
+</style>
+<style>
+:root {
+  --color-note: #0969da;
+  --color-tip: #1a7f37;
+  --color-warning: #9a6700;
+  --color-severe: #bc4c00;
+  --color-caution: #d1242f;
+  --color-important: #8250df;
+}
+
+</style>
+<style>
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-note: #2f81f7;
+    --color-tip: #3fb950;
+    --color-warning: #d29922;
+    --color-severe: #db6d28;
+    --color-caution: #f85149;
+    --color-important: #a371f7;
+  }
+}
+
+</style>
+<style>
+.markdown-alert {
+  padding: 0.5rem 1rem;
+  margin-bottom: 16px;
+  color: inherit;
+  border-left: .25em solid #888;
+}
+
+.markdown-alert>:first-child {
+  margin-top: 0
+}
+
+.markdown-alert>:last-child {
+  margin-bottom: 0
+}
+
+.markdown-alert .markdown-alert-title {
+  display: flex;
+  font-weight: 500;
+  align-items: center;
+  line-height: 1
+}
+
+.markdown-alert .markdown-alert-title .octicon {
+  margin-right: 0.5rem;
+  display: inline-block;
+  overflow: visible !important;
+  vertical-align: text-bottom;
+  fill: currentColor;
+}
+
+.markdown-alert.markdown-alert-note {
+  border-left-color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-note .markdown-alert-title {
+  color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-important {
+  border-left-color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-important .markdown-alert-title {
+  color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-warning {
+  border-left-color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-warning .markdown-alert-title {
+  color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-tip {
+  border-left-color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-tip .markdown-alert-title {
+  color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-caution {
+  border-left-color: var(--color-caution);
+}
+
+.markdown-alert.markdown-alert-caution .markdown-alert-title {
+  color: var(--color-caution);
+}
+
+</style>
+        
+        </head>
+        <body class="vscode-body vscode-light">
+            <p><sub><a href="README.html">&lt;&lt;Back to README</a></sub></p>
+<h1 id="7-what-is-a-promise-in-js">7. What is a promise in JS?</h1>
+<ul>
+<li><a href="#7-what-is-a-promise-in-js">7. What is a promise in JS?</a></li>
+<li><a href="#using-a-fetch-promise-to-communicate-with-apis-in-javascript">Using a fetch Promise to Communicate with APIs in JavaScript</a>
+<ul>
+<li><a href="#catch-the-error">Catch the error</a></li>
+<li><a href="#uses">Uses</a></li>
+</ul>
+</li>
+<li><a href="#how-to-group-promises-together-with-promiseall-in-javascript">How to Group Promises Together with Promise.all in JavaScript</a></li>
+<li><a href="#references">References</a></li>
+</ul>
+<p>JavaScript’s core purpose involves interacting with external services, such as databases and backend APIs. Frameworks like React, Angular, and Vue rely on data communication with these services, and promises ensure seamless communication.</p>
+<p>One of the most common ways to use promises is when you're communicating with outside APIs.</p>
+<p><strong>A promise gives us the ability to make an outside API call and really do any kind of task where we should not have an expectation of the task occurring in real-time</strong>.</p>
+<p>So if we're building some type of system or some type of feature <strong>where we do not have an expectation of whatever we're doing happening right away</strong> such as making a <strong>database query</strong> or an <strong>outside API call</strong> then what we can do is utilize a promise.</p>
+<p><strong>Example</strong></p>
+<p>Calling on the Twitter API, we can retrieve posts. But if Twitter is down, promises allow us to display our page and show the posts when they do arrive from the API.</p>
+<p>JavaScript is designed to be non-blocking and <strong>asynchronous</strong>, which means that certain operations, such as fetching data from an API or reading a file, don’t necessarily happen in a linear, sequential order.</p>
+<p>JS’s <strong>asynchronous</strong> nature allows you to perform tasks like calling external services and APIs. You can selectively pick and choose, which elements load on your page or application immediately or wait for some to load later. Promises deal specifically with the user experience.</p>
+<p><strong>Syntax</strong></p>
+<p>A <strong>Promise</strong> is an object that represents a value that may not be available yet but will be resolved or rejected in the future.</p>
+<p><strong>Code Example</strong></p>
+<p>In this example, we're creating a new instance of this promise ( a greeting <strong>object</strong>) and we're storing it inside of <strong>sleepyGreeting</strong>.</p>
+<p>A promise is expected to either <strong>succeed or encounter an error</strong>. We inform our program that it will receive either a successful response or an error, along with <strong>instructions on how to handle it.</strong></p>
+<pre><code class="language-JS"><span class="hljs-keyword">let</span> sleepyGreeting = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Promise</span>(<span class="hljs-function">(<span class="hljs-params">resolve, reject</span>) =&gt;</span> {
+  <span class="hljs-built_in">setTimeout</span>(<span class="hljs-function">() =&gt;</span> {
+    <span class="hljs-title function_">resolve</span>(<span class="hljs-string">&#x27;Hello....&#x27;</span>)
+  }, <span class="hljs-number">2000</span>);
+
+  <span class="hljs-built_in">setTimeout</span>(<span class="hljs-function">() =&gt;</span> {
+    <span class="hljs-title function_">reject</span>(<span class="hljs-title class_">Error</span>(<span class="hljs-string">&#x27;Too sleepy...&#x27;</span>))
+  }, <span class="hljs-number">2000</span>);
+});
+
+sleepyGreeting
+  .<span class="hljs-title function_">then</span>(<span class="hljs-function"><span class="hljs-params">data</span> =&gt;</span> {
+    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(data);
+  })
+  .<span class="hljs-title function_">catch</span>(<span class="hljs-function"><span class="hljs-params">err</span> =&gt;</span> {
+    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">error</span>(err);
+  });
+</code></pre>
+<p>Explanation of how we have created the promise and details about the syntax used:</p>
+<ol>
+<li>
+<p><strong>Creating a Promise</strong>:</p>
+<ul>
+<li>The <code>new Promise((resolve, reject) =&gt; { ... })</code> syntax creates a new Promise.</li>
+<li>It takes an <strong>arrow function</strong> with two arguments: <code>resolve</code> and <code>reject</code>. (older versions of javascript--&gt; new Promise((success, failure)))
+<ul>
+<li><code>resolve</code>: An arrow function to call when the operation is successful (i.e., when the promise is fulfilled).</li>
+<li><code>reject</code>: An arrow function to call when an error occurs (i.e., when the promise is rejected).</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>setTimeout and Resolving/Rejecting</strong>:
+We expect that whatever we get back is not going to happen immediately. It may take a few milliseconds or may even take a few seconds.</p>
+<ul>
+<li>Inside the Promise, there are two <code>setTimeout</code> calls:
+<ul>
+<li>The first one <strong>resolves</strong> the promise after 2000 milliseconds (2 seconds) with the value <code>'Hello....'</code>.</li>
+<li>The second one <strong>rejects</strong> the promise after the same duration with an <code>Error</code> object containing the message <code>'Too sleepy...'</code>.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>Using <code>.then()</code> and <code>.catch()</code></strong>:</p>
+<ul>
+<li>After creating the <code>sleepyGreeting</code> Promise, you can chain to the promise name <code>.then()</code> and <code>.catch()</code> methods.</li>
+<li><code>.then(data =&gt; { ... })</code>:
+<ul>
+<li>This method is called when the promise is resolved successfully.</li>
+<li>It receives the resolved value (in this case, <code>'Hello....'</code>) as the <code>data</code> parameter.</li>
+<li>The provided arrow function logs the data to the console.</li>
+</ul>
+</li>
+<li><code>.catch(err =&gt; { ... })</code>:
+<ul>
+<li>This method is called when the promise is rejected (i.e., an error occurs).</li>
+<li>It receives the rejected error (in this case, an <code>Error</code> object with the message <code>'Too sleepy...'</code>) as the <code>err</code> parameter.</li>
+<li>The provided arrow function logs the error to the console.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>Execution</strong>:</p>
+<ul>
+<li>When you run <code>sleepyGreeting</code>, it starts the asynchronous process.</li>
+<li>After 2 seconds, either the <code>resolve</code> or <code>reject</code> arrow function is called based on the timeouts.</li>
+</ul>
+</li>
+</ol>
+<p>In summary, Promises allow you to handle asynchronous operations in a more structured way, ensuring that you can handle both successful and failed outcomes.</p>
+<br>
+<h1 id="using-a-fetch-promise-to-communicate-with-apis-in-javascript">Using a fetch Promise to Communicate with APIs in JavaScript</h1>
+<p>One of the most common reasons why you're ever going to <strong>use promises is to communicate with outside services.</strong></p>
+<p>We're going to see how we can communicate with an outside API leveraging promises.</p>
+<p>When it comes to working with promises the whole point of it is being able to implement asynchronous behavior which means that you want the ability to call this API without stopping the entire communication pattern in the data flow for the rest of your application. You store it in a promise. Then whenever that data comes back then you can show that on the screen.</p>
+<p>What <strong>fetch()</strong> brings back to us is a promise.</p>
+<p>A promise, by itself, doesn’t directly output anything on the screen. <strong>When you receive a promise object, you must define what to do with it.</strong> Specify how to handle a successful response and how to handle failure.</p>
+<p>fetch() can be used with any type of data. So we define it and say that this data is JSON (data.json) and this is going to <strong>convert</strong> all of that data that we get back <strong>into JSON.</strong></p>
+<pre><code class="language-JS">.<span class="hljs-title function_">then</span>(<span class="hljs-function"><span class="hljs-params">data</span> =&gt;</span> data.<span class="hljs-title function_">json</span>());
+</code></pre>
+<p><strong>Example</strong>:</p>
+<p><strong>We want to fetch() film data from the SWAPI API, converts it to JSON, and logs the titles, first, and later, the  urls to the console.</strong>
+<br></p>
+<p><img src="file:////images/screenshot%20form%20Swapi%20API.png" alt="Swapi API documentation page for films data">
+<a href="https://swapi.dev/api/films/">Screenshot of Swapi API documentation page for films data</a></p>
+<p>We follow these steps: 1)We fech the film data (in general) from the APi, 2)-We fetch the film <strong>titles</strong> and 3)We fetch the film <strong>url</strong>.</p>
+<pre><code class="language-NOTE:">NOTE:
+We use the Firefox browser´s console (shorcut: CTRL+SHIFT+i). CodePen limits the ammount of data received. Chrome may block, as well, the code.
+
+To run the code : CTRL+enter
+
+If we need to run the same code again, we better close the browser and open it again to avoid errors like this:&quot; Uncaught SyntaxError: redeclaration of const filmsPromise&quot;.
+
+</code></pre>
+<br>
+<p><strong>1. We fetch the film data (in general) from the APi</strong>:  <a href="https://swapi.dev/api/films/">https://swapi.dev/api/films/</a></p>
+<pre><code class="language-JS"><span class="hljs-title function_">fetch</span>(<span class="hljs-string">&quot;https://swapi.dev/api/films/&quot;</span>)
+    .<span class="hljs-title function_">then</span>(<span class="hljs-function"><span class="hljs-params">data</span> =&gt;</span> data.<span class="hljs-title function_">json</span>()) <span class="hljs-comment">// converting to json</span>
+    .<span class="hljs-title function_">then</span>(<span class="hljs-variable language_">console</span>.<span class="hljs-property">log</span>); <span class="hljs-comment">// print your data</span>
+</code></pre>
+<br>
+<p><img src="file:////images/fetch%20films%20data%20fromswapi%20API%20.png" alt="fetch films gerneral data"></p>
+<br>
+<p>We can see in the above image that inside <strong>results</strong> we have the <strong>title</strong> and <strong>url</strong> that we want to fetch later.</p>
+<p><strong>2. We fetch() the film <strong>titles</strong>.</strong></p>
+<br>
+<pre><code class="language-JS"><span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&#x27;Starting fetch call&#x27;</span>);
+<span class="hljs-keyword">const</span> filmsPromise = <span class="hljs-title function_">fetch</span>(<span class="hljs-string">&quot;https://swapi.dev/api/films/&quot;</span>)
+<span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&#x27;After fetch call&#x27;</span>);
+<span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(filmsPromise);
+<span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&#x27;After program has run&#x27;</span>);
+filmsPromise
+  .<span class="hljs-title function_">then</span>(<span class="hljs-function"><span class="hljs-params">data</span> =&gt;</span> data.<span class="hljs-title function_">json</span>())  <span class="hljs-comment">// converting to json</span>
+  .<span class="hljs-title function_">then</span>(<span class="hljs-function"><span class="hljs-params">data</span> =&gt;</span> {
+    data.<span class="hljs-property">results</span>.<span class="hljs-title function_">forEach</span>(<span class="hljs-function">(<span class="hljs-params">item</span>) =&gt;</span> {
+      <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(item.<span class="hljs-property">title</span>);
+    });
+})
+	.<span class="hljs-title function_">catch</span>(<span class="hljs-function"><span class="hljs-params">error</span> =&gt;</span> {
+    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">error</span>(<span class="hljs-string">&#x27;Error fetching data:&#x27;</span>, error);
+  });
+
+<span class="hljs-comment">// Output: films</span>
+<span class="hljs-comment">// A New Hope </span>
+<span class="hljs-comment">// The Empire Strikes Back  </span>
+<span class="hljs-comment">// Return of the Jedi  </span>
+<span class="hljs-comment">// The Phantom Menace </span>
+<span class="hljs-comment">// Attack of the Clones </span>
+<span class="hljs-comment">// Revenge of the Sith</span>
+</code></pre>
+<br>
+<p><strong>Explanation</strong>:</p>
+<ol>
+<li>
+<p><strong>Starting the Fetch Call</strong>:</p>
+<ul>
+<li>The line <code>console.log('Starting fetch call');</code> simply logs the message &quot;Starting fetch call&quot; to the console.</li>
+<li>This is the initial step before making an HTTP request using the Fetch API.</li>
+</ul>
+</li>
+<li>
+<p><strong>Fetching Data from an API</strong>:</p>
+<ul>
+<li>The next line creates a <strong>promise</strong> by calling <code>fetch(&quot;https://swapi.dev/api/films/&quot;)</code>.</li>
+<li>That URL points to the Star Wars API (SWAPI) films endpoint.</li>
+<li>The <code>fetch()</code> function returns a promise that resolves with a <code>Response</code> object representing the HTTP response.</li>
+</ul>
+</li>
+<li>
+<p><strong>Logging After Fetch Call</strong>:</p>
+<ul>
+<li>The line <code>console.log('After fetch call');</code> logs the message &quot;After fetch call&quot; to the console.</li>
+<li>This step occurs immediately after initiating the fetch request.</li>
+</ul>
+</li>
+<li>
+<p><strong>The Films Promise</strong>:</p>
+<ul>
+<li>The line <code>console.log(filmsPromise);</code> logs the <code>filmsPromise</code> object to the console.</li>
+<li>The <code>filmsPromise</code> is a promise that represents the pending HTTP request to retrieve film data from SWAPI.</li>
+</ul>
+</li>
+<li>
+<p><strong>Handling the Promise</strong>:</p>
+<ul>
+<li>The subsequent code uses <code>.then()</code> and <code>.catch()</code> to handle the promise:
+<ul>
+<li><code>.then(data =&gt; data.json())</code>: This method is chained to the promise. It converts the response body (which is in JSON format) to a JavaScript object.</li>
+<li><code>.then(data =&gt; { ... })</code>: Inside this block, the <code>data.results</code> array is iterated over, and each film title is logged to the console.</li>
+<li><code>.catch(error =&gt; { ... })</code>: If any error occurs during the fetch (e.g., network issues), it is caught here, and an error message is logged.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>Execution Flow</strong>:</p>
+<ul>
+<li>The fetch request is asynchronous, so the code continues executing while waiting for the response.</li>
+<li>Once the response is received, the promise resolves, and the <code>.then()</code> callbacks are executed.</li>
+<li>If an error occurs, the <code>.catch()</code> callback handles it with a message.</li>
+</ul>
+</li>
+</ol>
+<br>
+<p><img src="file:////images/promise%20fetch%20swapi%20API.png" alt="promise to fecth API"></p>
+<br>
+<h2 id="catch-the-error">Catch the error</h2>
+<p>What happens if this promise does not resolve properly so if it gets rejected and we have an error we need to be able to catch that error with <code>.catch()</code>  (as seen in the example code).</p>
+<p>Let's imagine that we come up to the top of our code and change our
+const postsPromise = fetch(&quot;<a href="https://swapi.dev/api/films/">https://swapi.dev/api/films/</a>&quot;). We change the https to HTTP: <a href="http://swapi.dev/api/films/">http://swapi.dev/api/films/</a></p>
+<p>Then this is not going to work properly if we tried to pull it in. And the reason is that deals specifically with cybersecurity. If you are fetching this type of API endpoint and it's not secure there's a chance you might be bringing in different elements that are not secure into your own application and so javascript is going to block that.</p>
+<br>
+<p><img src="file:////images/promise%20fetch%20cath%20error.png" alt="catch error code image"></p>
+<br>
+<p>The page here was loaded over https but requested an insecure resource. And so  that's the reason why it was blocked.</p>
+<p>It is very useful to render something on the screen and say there is an error in communicating with the outside API. For example:</p>
+<br>
+<pre><code class="language-JS"><span class="hljs-comment">// first option</span>
+	.<span class="hljs-title function_">catch</span>(<span class="hljs-function"><span class="hljs-params">error</span> =&gt;</span> {
+    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">error</span>(<span class="hljs-string">&#x27;Error fetching data:&#x27;</span>, error);
+  });
+
+<span class="hljs-comment">// second option</span>
+.<span class="hljs-title function_">catch</span>(<span class="hljs-function">(<span class="hljs-params">err</span>) =&gt;</span> {
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(err);
+});
+</code></pre>
+<p>&quot;In the first <code>.catch()</code> block, we use <code>console.error('Error fetching data:', error);</code>. This will print an error message to the console with a special format for errors, which can be helpful for quickly identifying issues.</p>
+<p>In the second <code>.catch()</code> block, we use <code>console.log(err);</code>. This will simply print the error message to the console without any special formatting. You can use it if you prefer a simpler output.&quot;</p>
+<br>
+<h2 id="uses">Uses</h2>
+<p>Working with promises we've been able to communicate with a completely different server and we've been able to bring all of those film titles for that other application right into our own programs so we'd be able to do this if we're working in some kind of front-end application. We'd be able to communicate with this outside API and pull in say the film title.</p>
+<p><strong>3. We fetch() the film <strong>url</strong>.</strong></p>
+<p>Let´s try now to also pull in some of the other elements, like for example the <strong>url</strong>.</p>
+<br>
+<p><img src="file:////images/promise%20fetch%20url%20swapi%20API.png" alt="fetch url data"></p>
+<br>
+<h1 id="how-to-group-promises-together-with-promiseall-in-javascript">How to Group Promises Together with Promise.all in JavaScript</h1>
+<p>We can group promises together. This is a common pattern that you'll see where you have various promises that are very similar.</p>
+<p>And when that's the case we can actually put those together and then treat them as a group of promises and we can do this using a term called <strong><code>Promise.all</code></strong>.</p>
+<p>So we´re going to build a couple promises here:</p>
+<br>
+<pre><code class="language-JS"><span class="hljs-comment">// promise one</span>
+<span class="hljs-keyword">const</span> greeting = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Promise</span>(<span class="hljs-function">(<span class="hljs-params">resolve, reject</span>) =&gt;</span>{
+  <span class="hljs-title function_">resolve</span>(<span class="hljs-string">&#x27;Hi there&#x27;</span>); <span class="hljs-comment">// if it works </span>
+  <span class="hljs-title function_">reject</span>(<span class="hljs-string">&#x27;Oops, bad greeting&#x27;</span>); <span class="hljs-comment">// if it doesn´t work</span>
+});
+
+<span class="hljs-comment">// promise two</span>
+<span class="hljs-keyword">const</span> updateAccount = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Promise</span>(<span class="hljs-function">(<span class="hljs-params">resolve, reject</span>) =&gt;</span> {
+  <span class="hljs-title function_">resolve</span>(<span class="hljs-string">&#x27;Updating last login...&#x27;</span>);
+  <span class="hljs-title function_">reject</span>(<span class="hljs-string">&#x27;Error updating account with login.&#x27;</span>);
+});
+</code></pre>
+<br>
+<p>So what we´re trying to mimic above is a number of different processes that you might do if you're building a web or a mobile application where you want to:</p>
+<ul>
+<li><strong>render out a greeting to a user</strong>.</li>
+<li>But whenever they log in you also want to <strong>update their account</strong> <strong>and let the system know that that user has logged in</strong>.
+So both of <strong>these processes</strong> <strong>are going to need to run every time a user logs into the system</strong>. And so because of that, it makes sense to <strong>treat them the same.</strong></li>
+</ul>
+<p>So instead of calling update account and then adding a <strong>.then</strong> and  a <strong>.catch</strong> and all of those processes, what we can do is <strong>leverage</strong> <strong><code>promise. all</code></strong> so that we can treat it the same. And then, we can just loop over these.</p>
+<p>So on the next code we say <strong>const loginActivities</strong> and then we set it <strong>equal to Promise.all</strong> and <strong>pass in an array of promises</strong>: greeting and then updateAccount.</p>
+<pre><code class="language-JS"><span class="hljs-keyword">const</span> loginActivities = <span class="hljs-title class_">Promise</span>.<span class="hljs-title function_">all</span>([greeting, updateAccount]);
+
+<span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(loginActivities);  <span class="hljs-comment">// [object Promise] {}  --&gt; it returns a promise itself.</span>
+</code></pre>
+<p><strong><code>promise all</code></strong> as seen above it returns a promise itself.</p>
+<p>But it is a different type of promise because it <strong>has multiple promises</strong> <strong>(set of promises)</strong> inside of it and that's an important kind of idea to remember.</p>
+<p>That means that we are going to <strong>have to iterate over this because it's an array</strong>. We use <code>.forEach</code> that gives us the ability to iterate over an array.</p>
+<p>And then in order to <strong>call it</strong> we use our <strong><code>.then</code></strong> call.</p>
+<p>Technically we could have chained it on to the end of the const loginActivities statement. But we just <strong>put it on its own line so that it's a little bit easier to read.</strong></p>
+<p>We're going to get back the response of that promise and then that response is going to have a collection:</p>
+<br>
+<pre><code class="language-JS">loginActivities.<span class="hljs-title function_">then</span>(<span class="hljs-function"><span class="hljs-params">res</span> =&gt;</span> {
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(res);
+})
+
+<span class="hljs-comment">// output</span>
+<span class="hljs-comment">// [object Array] (2)</span>
+<span class="hljs-comment">// [&quot;Hi there&quot;,&quot;Updating last login...&quot;]</span>
+</code></pre>
+<br>
+<p>In this case, both of them are passing so we're getting both of those back.</p>
+<p>And now we want each one of these , we want to be able to treat them individually.</p>
+<br>
+<pre><code class="language-JS">loginActivities.<span class="hljs-title function_">then</span>(<span class="hljs-function"><span class="hljs-params">res</span> =&gt;</span> {   <span class="hljs-comment">// &quot;res&quot; is just short for response</span>
+  res.<span class="hljs-title function_">forEach</span>(<span class="hljs-function"><span class="hljs-params">activity</span> =&gt;</span> {
+    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(activity);
+  })
+})
+
+<span class="hljs-comment">// output:</span>
+<span class="hljs-comment">// &quot;Hi there&quot;</span>
+<span class="hljs-comment">// &quot;Updating last login...&quot;</span>
+</code></pre>
+<br>
+<p>It prints out both of those elements it prints out the <strong>greeting</strong> and the <strong>update accounts</strong> so both those promises worked. And we were able to iterate over them.</p>
+<p>In summary, the purpose of above code is to handle the resolved values of both promises (greeting and updateAccount) together using Promise.all().</p>
+<p>By using <strong>forEach</strong>, we can process each activity (resolved value) in the array and log it to the console.</p>
+<p>The forEach loop allows us to iterate over the resolved values (activities) from the combined promise, making our code more efficient and easier to read.</p>
+<p><strong>Other way: without using Promise.all:</strong></p>
+<p>If we want to achieve the same result without using Promise.all() or .forEach(), we can manually handle each promise resolution using separate .then() blocks.</p>
+<p>We <strong>handle each promise</strong> (greeting and updateAccount) <strong>separately</strong> using <code>.then()</code> and <code>.catch()</code> blocks.</p>
+<p>If the promise resolves, we log the result; if it rejects, we log the error.</p>
+<pre><code class="language-JS"><span class="hljs-keyword">const</span> greeting = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Promise</span>(<span class="hljs-function">(<span class="hljs-params">resolve, reject</span>) =&gt;</span> {
+  <span class="hljs-title function_">resolve</span>(<span class="hljs-string">&#x27;Hi there&#x27;</span>);
+  <span class="hljs-title function_">reject</span>(<span class="hljs-string">&#x27;Oops, bad greeting&#x27;</span>);
+});
+
+<span class="hljs-keyword">const</span> updateAccount = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Promise</span>(<span class="hljs-function">(<span class="hljs-params">resolve, reject</span>) =&gt;</span> {
+  <span class="hljs-title function_">resolve</span>(<span class="hljs-string">&#x27;Updating last login...&#x27;</span>);
+  <span class="hljs-title function_">reject</span>(<span class="hljs-string">&#x27;Error updating account with login.&#x27;</span>);
+});
+
+<span class="hljs-comment">// Handle &#x27;greeting&#x27; promise</span>
+greeting
+  .<span class="hljs-title function_">then</span>(<span class="hljs-function"><span class="hljs-params">greetingResult</span> =&gt;</span> {
+    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(greetingResult);
+  })
+  .<span class="hljs-title function_">catch</span>(<span class="hljs-function"><span class="hljs-params">greetingError</span> =&gt;</span> {
+    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">error</span>(greetingError);
+  });
+
+<span class="hljs-comment">// Handle &#x27;updateAccount&#x27; promise</span>
+updateAccount
+  .<span class="hljs-title function_">then</span>(<span class="hljs-function"><span class="hljs-params">updateResult</span> =&gt;</span> {
+    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(updateResult);
+  })
+  .<span class="hljs-title function_">catch</span>(<span class="hljs-function"><span class="hljs-params">updateError</span> =&gt;</span> {
+    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">error</span>(updateError);
+  });
+
+</code></pre>
+<br>
+<p>In the <strong>image below</strong> we can <strong>compare both code examples</strong>. The one on the left is using Promise.all() or .forEach(). And the one on the rigth is the example, manually handling each promise resolution, using separate .then() blocks.</p>
+<br>
+<p><img src="file:////images/promise%20all%20vs%20separated%20promises.png" alt="promises all vs separated promises code image"></p>
+<p><strong>Conclusion</strong>:</p>
+<p>If we compare both ways, we can see that our earlier code, using promise.all,
+was more efficient than handling each promise (greeting and updateAccount) separately.</p>
+<h1 id="references">References</h1>
+<ul>
+<li><a href="https://basque.devcamp.com/pt-full-stack-development-javascript-python-react/guide/introduction-javascript-promises">Introduction to JavaScript Promises</a></li>
+<li><a href="https://www.geeksforgeeks.org/asynchronous-javascript/">https://www.geeksforgeeks.org/asynchronous-javascript/</a></li>
+<li><a href="https://www.w3schools.com/js/js_asynchronous.asp">Asynchronous JavaScript</a></li>
+<li><a href="https://medium.com/@maddieweber7/the-asynchronous-nature-of-javascript-16e4882a833b">The Asynchronous Nature of Javascript</a></li>
+</ul>
+<br>
+<p><a href="#top"> <span style="color: #f2f2f2; font-size: 30px;"><img src="file:////images/Top-Icon1.webp" alt="alt"></a></span></p>
+<p><sub><a href="README.html">&lt;&lt;Back to README</a></sub></p>
+
+            
+            
+        </body>
+        </html>

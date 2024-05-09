@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+        <html>
+        <head>
+            <meta charset="UTF-8">
+            <title>6&period; What is object-oriented programming&quest;</title>
+            <style>
+/* From extension vscode.github */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+.vscode-dark img[src$=\#gh-light-mode-only],
+.vscode-light img[src$=\#gh-dark-mode-only],
+.vscode-high-contrast:not(.vscode-high-contrast-light) img[src$=\#gh-light-mode-only],
+.vscode-high-contrast-light img[src$=\#gh-dark-mode-only] {
+	display: none;
+}
+
+</style>
+            <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.css">
+<link href="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.css" rel="stylesheet" type="text/css">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
+<style>
+            body {
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe WPC', 'Segoe UI', system-ui, 'Ubuntu', 'Droid Sans', sans-serif;
+                font-size: 14px;
+                line-height: 1.6;
+            }
+        </style>
+        <style>
+.task-list-item {
+    list-style-type: none;
+}
+
+.task-list-item-checkbox {
+    margin-left: -20px;
+    vertical-align: middle;
+    pointer-events: none;
+}
+</style>
+<style>
+:root {
+  --color-note: #0969da;
+  --color-tip: #1a7f37;
+  --color-warning: #9a6700;
+  --color-severe: #bc4c00;
+  --color-caution: #d1242f;
+  --color-important: #8250df;
+}
+
+</style>
+<style>
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-note: #2f81f7;
+    --color-tip: #3fb950;
+    --color-warning: #d29922;
+    --color-severe: #db6d28;
+    --color-caution: #f85149;
+    --color-important: #a371f7;
+  }
+}
+
+</style>
+<style>
+.markdown-alert {
+  padding: 0.5rem 1rem;
+  margin-bottom: 16px;
+  color: inherit;
+  border-left: .25em solid #888;
+}
+
+.markdown-alert>:first-child {
+  margin-top: 0
+}
+
+.markdown-alert>:last-child {
+  margin-bottom: 0
+}
+
+.markdown-alert .markdown-alert-title {
+  display: flex;
+  font-weight: 500;
+  align-items: center;
+  line-height: 1
+}
+
+.markdown-alert .markdown-alert-title .octicon {
+  margin-right: 0.5rem;
+  display: inline-block;
+  overflow: visible !important;
+  vertical-align: text-bottom;
+  fill: currentColor;
+}
+
+.markdown-alert.markdown-alert-note {
+  border-left-color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-note .markdown-alert-title {
+  color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-important {
+  border-left-color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-important .markdown-alert-title {
+  color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-warning {
+  border-left-color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-warning .markdown-alert-title {
+  color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-tip {
+  border-left-color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-tip .markdown-alert-title {
+  color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-caution {
+  border-left-color: var(--color-caution);
+}
+
+.markdown-alert.markdown-alert-caution .markdown-alert-title {
+  color: var(--color-caution);
+}
+
+</style>
+        
+        </head>
+        <body class="vscode-body vscode-light">
+            <p><sub><a href="README.html">&lt;&lt;Back to README</a></sub></p>
+<h1 id="6-what-is-object-oriented-programming">6. What is object-oriented programming?</h1>
+<ul>
+<li><a href="#6-what-is-object-oriented-programming">6. What is object-oriented programming?</a></li>
+<li><a href="#introduction-to-object-oriented-programming-in-javascript">Introduction to Object Oriented Programming in JavaScript</a></li>
+<li><a href="#oop-instance-methods-in-javascript">OOP Instance Methods in JavaScript</a></li>
+<li><a href="#oop-static-methods-in-javascript">OOP Static Methods in JavaScript</a></li>
+<li><a href="#what-is-the-difference-between-static-and-instance-methods">What is the difference between static and instance methods?</a></li>
+<li><a href="#summary">Summary</a></li>
+<li><a href="#references">References</a></li>
+</ul>
+<h1 id="introduction-to-object-oriented-programming-in-javascript">Introduction to Object Oriented Programming in JavaScript</h1>
+<p>The concept of Object Oriented Programming (OOP)in JavaScript was introduced in ECMAScript 2015 (ES6). Before JavaScript did not support the OOPs and it was a completely functional-based programming language everything was done with the help of functions.</p>
+<p>JavaScript is often described as a <a href="https://www.freecodecamp.org/news/how-javascript-implements-oop/">prototype-based</a> language, and the concept of classes is different from what you might find in languages like Java or C#. However, starting with ES6, JS introduced the <strong>class syntax</strong> to provide a more familiar way of defining objects with shared behavior.</p>
+<pre><code class="language-Note">NOTE:
+
+JS doesn’t have traditional classes like some other languages, the class syntax provides a convenient way to define constructor functions and methods. Even though we use the word “class,” it’s important to understand that it’s not exactly the same as classes in class-based languages.
+</code></pre>
+<p>We can <strong>implement the OOPs by creating classes and their object instances</strong>. As we mentioned before, after the introduction of ES6, JavaScript become an OOP language as it supports all four basic pillars of OOPs which are: <a href="https://www.geeksforgeeks.org/introduction-object-oriented-programming-javascript/">inheritance, encapsulation, abstraction, and polymorphism.</a></p>
+<p>Let´s explain the concepts of object and class:</p>
+<p><strong>Object</strong>
+<br></p>
+<p><img src="file:////images/JS%20object%20visual%20image%20inpired%20by%20JavaScript%20objects%20explaine%20the%20visual%20way%20by%203dCodeWorld.jpg" alt="JS object visual image inpired by JavaScript objects explaine the visual way by 3dCodeWorld">
+JS object  visual image - modified from original one by <em>JavaScript objects explaine the visual</em> way by <a href="https://www.youtube.com/@3dCodeWorld">3dCodeWorld</a></p>
+<br>
+<p>An Object is a unique entity that contains <strong>properties and methods.</strong></p>
+<p>For example “a car” is a real-life Object, which has some characteristics like color, type, model, and horsepower and performs certain actions like driving. The characteristics of an Object are called Properties in OOP and the actions are called methods.</p>
+<p><strong>An Object is an instance of a class</strong>.</p>
+<p>Objects are everywhere in JavaScript, almost every element is an Object whether it is a function, array, or string.</p>
+<p>Note: A <strong>Method</strong> in javascript <strong>is a property of an object</strong> whose value is a function.</p>
+<p>The most popular model of OOP is class-based.</p>
+<br>
+<p><strong>Class</strong></p>
+<p>Classes are <strong>blueprints</strong> of an Object. A class can have many Objects because the class is a template while Objects are instances of the class or the concrete implementation.</p>
+<p>For example,  a floor plan (with detailed building instructions) is a blueprint for building a house.</p>
+<p>A class is simply a <strong>list of definitions</strong> that say exactly <strong>how</strong> the class should <strong>behave</strong>. It will list out <strong>attributes</strong> so it can describe what the class is <strong>supposed to do</strong> and the <strong>behavior</strong> it's going to have.</p>
+<p><strong>Example:</strong></p>
+<p>Let's imagine a <strong>User class</strong>, every time that a new user comes to the site and registers, the program is going to look at your <em>User class</em> and it's going to see the <strong>blueprint</strong>, to see <strong>how that user should behave</strong> and then we're taking that blueprint and we're <strong>creating a real-world object</strong> with it.</p>
+<p><strong>The program is going to look at the blueprint and then it's going to  create and instantiate an object</strong> with it. It's no longer a blueprint. It is now something that your system can use.</p>
+<p>We create a class and then we're going to,  what's called, instantiate that class.</p>
+<p>For example we're going to build an instructor class.</p>
+<p>So imagine a situation where you are building an application similar to i.e.: an online learning management system and you need to have the ability to have instructors in there. We can use an instructor class.</p>
+<p><strong>Classes</strong> are made up of all kinds of different things and it's a reason object-oriented programming gives a really nice interface for building programs because they can <strong>contain attributes</strong>, they <strong>can contain multiple types of functions</strong>, and then you <strong>can call them</strong> in a very similar way that you would call objects or call functions.</p>
+<p>Since in <strong>JS everything is an object</strong> you can call those types of items in a very similar manner.</p>
+<p>The object can be created in two ways in JavaScript: Object Literal or Object Constructor.</p>
+<p><strong>Example: Using an Object Literal:</strong>
+<br></p>
+<pre><code class="language-JS"><span class="hljs-comment">// Defining object</span>
+<span class="hljs-keyword">let</span> person = {
+    <span class="hljs-attr">first_name</span>: <span class="hljs-string">&#x27;Rafael&#x27;</span>,
+    <span class="hljs-attr">last_name</span>: <span class="hljs-string">&#x27;Nadal&#x27;</span>,
+ 
+    <span class="hljs-comment">//method</span>
+    <span class="hljs-attr">getFunction</span>: <span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) {
+        <span class="hljs-keyword">return</span> (<span class="hljs-string">`The name of the person is 
+          <span class="hljs-subst">${person.first_name}</span> <span class="hljs-subst">${person.last_name}</span>`</span>)
+    },
+    <span class="hljs-comment">//object within object</span>
+    <span class="hljs-attr">phone_number</span>: {
+        <span class="hljs-attr">mobile</span>: <span class="hljs-string">&#x27;12345&#x27;</span>,
+        <span class="hljs-attr">landline</span>: <span class="hljs-string">&#x27;6789&#x27;</span>
+    }
+}
+<span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(person.<span class="hljs-title function_">getFunction</span>());
+<span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(person.<span class="hljs-property">phone_number</span>.<span class="hljs-property">landline</span>);
+
+<span class="hljs-comment">//Output:</span>
+<span class="hljs-comment">// the name of the person is Rafael Nadal</span>
+<span class="hljs-number">6789</span>
+</code></pre>
+<p><strong>Example: Using an Object Constructor:</strong>
+<br></p>
+<pre><code class="language-JS"><span class="hljs-comment">// Using a constructor</span>
+<span class="hljs-keyword">function</span> <span class="hljs-title function_">person</span>(<span class="hljs-params">first_name, last_name</span>) {
+    <span class="hljs-variable language_">this</span>.<span class="hljs-property">first_name</span> = first_name;
+    <span class="hljs-variable language_">this</span>.<span class="hljs-property">last_name</span> = last_name;
+}
+<span class="hljs-comment">// Creating new instances of person object</span>
+<span class="hljs-keyword">let</span> person1 = <span class="hljs-keyword">new</span> <span class="hljs-title function_">person</span>(<span class="hljs-string">&#x27;Rafael&#x27;</span>, <span class="hljs-string">&#x27;Nadal&#x27;</span>);
+<span class="hljs-keyword">let</span> person2 = <span class="hljs-keyword">new</span> <span class="hljs-title function_">person</span>(<span class="hljs-string">&#x27;Roger&#x27;</span>, <span class="hljs-string">&#x27;Federer&#x27;</span>);
+ 
+<span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(person1.<span class="hljs-property">first_name</span>);
+<span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">`<span class="hljs-subst">${person2.first_name}</span> <span class="hljs-subst">${person2.last_name}</span>`</span>);
+
+<span class="hljs-comment">// Output:</span>
+<span class="hljs-comment">// Rafael</span>
+<span class="hljs-comment">// Roger Federer</span>
+</code></pre>
+<br>
+<p>The role of a <strong>constructor function</strong> is to run all the processes you want. <strong>Every time that a new instructor is created. Everything inside of this constructor function is going to get run.</strong></p>
+<p>We <strong>pass in a name as an object</strong>, so anytime that we want <strong>to create a new instructor</strong> we simply are going to pass in all the attributes in as an object.</p>
+<p>Constructor is a reserved keyword inside of classes.</p>
+<p>It's pretty rare that you will create a class and not want to immediately do something with it (whether it's setting values, calling certain other builder functions inside of it, etc)</p>
+<p>What the <strong><code>constructor function</code></strong> does is it <strong>performs all of those basic tasks that you want to be done,</strong> <strong>for every time a new class is instantiated.</strong></p>
+<p>Now let´s come back to our instructor example. If you build a new instructor. Then  every time you do that, everything inside of the constructor function is going to get run.</p>
+<p>In this case for our basic example, what we want just pass in a name.</p>
+<br>
+<pre><code class="language-JS"><span class="hljs-keyword">class</span> <span class="hljs-title class_">Instructor</span> {
+  <span class="hljs-title function_">constructor</span>(<span class="hljs-params">{ name }</span>) {
+    <span class="hljs-variable language_">this</span>.<span class="hljs-property">name</span> = name; <span class="hljs-comment">//assigns the value of the `name` property to the `name` instance variable.</span>
+  }
+}
+</code></pre>
+<br>
+<p>When we say <strong>(<a href="http://this.name">this.name</a>)</strong> what that is referencing is, <strong>the instance of instructor.</strong></p>
+<p>So when we create an instructor, we <strong>create a new instance</strong> and then, for this specific instance, we want to <strong>store whatever name</strong> got passed in, with this object.</p>
+<p><code>We're adding an attribute into this.name item.</code></p>
+<p><img src="file:////images/class%20instructor%20codepen%20screenshot.png" alt="class instructor"></p>
+<p>Now with all that in place let's create a new instructor. Remember that in object-oriented programming, <strong>a class by itself is nothing more than a blueprint.</strong> It <strong>simply gives us a set of rules and guidelines for building objects</strong>. So now we need to iniciate the process called <strong>instantiation</strong>.</p>
+<p>Remember we're passing an object so whatever you have in your constructor function in your list of arguments (name) whenever you instantiate a new version of instructor then you need to pass in that object(name).</p>
+<p>This <em>Jon</em> is considered an <strong>instance of the instructor class.</strong> So Jon is an <strong>object</strong>.</p>
+<p>EXPLANATION</p>
+<ol>
+<li>
+<p><strong>Class Definition</strong>:</p>
+<ul>
+<li>The <code>class Instructor</code> is defined using the <code>class</code> keyword.</li>
+<li>It has a single constructor method that takes an object with a <code>name</code> property as its parameter.</li>
+<li>The constructor initializes an instance variable <code>this.name</code> with the value of the <code>name</code> property passed(as an argument) to it.</li>
+</ul>
+</li>
+<li>
+<p><strong>Constructor</strong>:</p>
+<ul>
+<li>The constructor is a special method that gets <strong>executed when an object of the class is created.</strong></li>
+<li>In this case, it accepts an object with a <code>name</code> property.</li>
+<li>The <code>this.name = name;</code> line assigns the value of the <code>name</code> property to the <code>name</code> instance variable.</li>
+</ul>
+</li>
+<li>
+<p><strong>Usage</strong>:</p>
+<ul>
+<li>
+<p>To create an new instance of the <code>Instructor</code> class, you would do something like this:<br>
+<br></p>
+<pre><code class="language-javascript"><span class="hljs-keyword">const</span> myInstructor = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Instructor</span>({ <span class="hljs-attr">name</span>: <span class="hljs-string">&#x27;John Doe&#x27;</span> });
+<span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(myInstructor.<span class="hljs-property">name</span>); <span class="hljs-comment">// Outputs: &#x27;John Doe&#x27;</span>
+</code></pre>
+</li>
+</ul>
+<p>So you can <strong>access the value</strong> of the <code>name</code> instance variable using <code>myInstructor.name</code>.</p>
+</li>
+</ol>
+<p>In summary, this class allows you to create <code>Instructor</code> objects with a specified <code>name</code>.</p>
+<p>In other words, the <code>name</code> instance variable holds the name of a specific instructor object created from the <code>Instructor</code> class.</p>
+<p><strong>Code exercise example</strong></p>
+<p>Create a class, named Account, that has properties for a username and password. Then instantiate a new object called user and set the username and password to whatever strings you like.</p>
+<br>
+<pre><code class="language-js"><span class="hljs-keyword">class</span> <span class="hljs-title class_">Account</span> {
+    <span class="hljs-title function_">constructor</span>(<span class="hljs-params">{username}, {password}</span>){
+        <span class="hljs-variable language_">this</span>.<span class="hljs-property">username</span> = username;
+        <span class="hljs-variable language_">this</span>.<span class="hljs-property">password</span> = password;
+    }
+}
+
+<span class="hljs-keyword">const</span> user = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Account</span>({<span class="hljs-attr">username</span>:<span class="hljs-string">&quot;Isabel&quot;</span>}, {<span class="hljs-attr">password</span>:<span class="hljs-string">&quot;mypin&quot;</span>});
+<span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(user); <span class="hljs-comment">// object</span>
+<span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(user.<span class="hljs-property">username</span>); <span class="hljs-comment">//&quot;Isabel&quot;</span>
+<span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(user.<span class="hljs-property">password</span>); <span class="hljs-comment">//&quot;mypin&quot;</span>
+
+<span class="hljs-comment">// Output:</span>
+
+<span class="hljs-comment">// [object Object] </span>
+<span class="hljs-comment">// {</span>
+<span class="hljs-comment">//   &quot;username&quot;: &quot;Isabel&quot;,</span>
+<span class="hljs-comment">//   &quot;password&quot;: &quot;mypin&quot;</span>
+<span class="hljs-comment">// }</span>
+</code></pre>
+<br>
+<h1 id="oop-instance-methods-in-javascript">OOP Instance Methods in JavaScript</h1>
+<br>
+<p><img src="file:////images/JS%20object%20properties%20visual%20image.png" alt="JS object properties visual image">
+Example - Instance method - <em>.doSomething( )</em> - visual image by <em>&quot;JavaScript objects explaine the visual way&quot;</em> by <a href="https://www.youtube.com/@3dCodeWorld">3dCodeWorld.</a></p>
+<p>Instance methods are a way of adding behavior. They are just traditional functions.</p>
+<p>Instance method is <strong>a function inside of a class</strong>. And <strong>whenever you create a new instance of that class you can then call the instance methods on it</strong>.</p>
+<p>We're going to <strong>add a role</strong> to our previous <em>instructor</em> example, and <strong>set a default value</strong> of <em>assistant</em> so whenever we create a new instructor they're automatically going to have a role of assistant.</p>
+<p>But we have the ability to override that ( look at this section that shows you how to <a href="04_variable_deconstruction.html">add default values</a> ).</p>
+<pre><code class="language-JS"><span class="hljs-keyword">class</span> <span class="hljs-title class_">Instructor</span> {
+  <span class="hljs-title function_">constructor</span>(<span class="hljs-params">{name, role = <span class="hljs-string">&quot;assistant&quot;</span>}</span>) {
+    <span class="hljs-variable language_">this</span>.<span class="hljs-property">name</span> = name;
+    <span class="hljs-variable language_">this</span>.<span class="hljs-property">role</span> = role;
+  }
+
+  <span class="hljs-title function_">renderDetails</span>(<span class="hljs-params"></span>){
+    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">`<span class="hljs-subst">${<span class="hljs-variable language_">this</span>.name}</span>:<span class="hljs-subst">${<span class="hljs-variable language_">this</span>.role}</span>`</span>);
+  }
+}   
+ <span class="hljs-keyword">const</span> jon = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Instructor</span>({<span class="hljs-attr">name</span>: <span class="hljs-string">&quot;Jon Snow&quot;</span>});
+ <span class="hljs-keyword">const</span> brayden = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Instructor</span>({<span class="hljs-attr">name</span>: <span class="hljs-string">&quot;Brayden&quot;</span>, <span class="hljs-attr">role</span>:<span class="hljs-string">&quot;teacher&quot;</span>});
+jon.<span class="hljs-title function_">renderDetails</span>(); <span class="hljs-comment">// call the instance method</span>
+brayden.<span class="hljs-title function_">renderDetails</span>(); <span class="hljs-comment">// call the instance method</span>
+
+</code></pre>
+<br>
+<p>In review, an <strong>instance method</strong> is a method that <strong>can be called on a specific instance</strong> just like we were able to call <em>renderDetails()</em> on the <em>Jon</em> instance and the <em>Brayden</em> instance in this example.</p>
+<p><strong>Coding Exercise Example</strong></p>
+<p>You're in the market for a new car but want it to be electric. Create an instance of the Car class called model3. The year must be a number (so don't wrap it in quotation marks). Set the brand to &quot;Tesla&quot; and change the poweredBy to &quot;electricity&quot;.</p>
+<pre><code class="language-Js"><span class="hljs-keyword">class</span> <span class="hljs-title class_">Car</span> {
+	<span class="hljs-title function_">constructor</span>(<span class="hljs-params">{ year, brand, poweredBy = <span class="hljs-string">&#x27;gas&#x27;</span> }</span>) {
+		<span class="hljs-variable language_">this</span>.<span class="hljs-property">year</span> = year;
+		<span class="hljs-variable language_">this</span>.<span class="hljs-property">brand</span> = brand;
+		<span class="hljs-variable language_">this</span>.<span class="hljs-property">poweredBy</span> = poweredBy;
+	}
+
+	<span class="hljs-title function_">carSpecs</span>(<span class="hljs-params"></span>) {
+		<span class="hljs-keyword">return</span>(<span class="hljs-string">`The <span class="hljs-subst">${<span class="hljs-variable language_">this</span>.year}</span> <span class="hljs-subst">${<span class="hljs-variable language_">this</span>.brand}</span> runs on <span class="hljs-subst">${<span class="hljs-variable language_">this</span>.poweredBy}</span>`</span>)
+	}
+}
+
+<span class="hljs-comment">//Write your code here</span>
+<span class="hljs-keyword">const</span> model3 = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Car</span>({<span class="hljs-attr">year</span>:<span class="hljs-number">2020</span>, <span class="hljs-attr">brand</span>: <span class="hljs-string">&quot;Tesla&quot;</span>, poweredBy : <span class="hljs-string">&quot;electricity&quot;</span>});
+<span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(model3.<span class="hljs-title function_">carSpecs</span>()); <span class="hljs-comment">// &quot;The 2020 Tesla runs on electricity&quot;</span>
+
+</code></pre>
+<br>
+<h1 id="oop-static-methods-in-javascript">OOP Static Methods in JavaScript</h1>
+<p>Static methods are used for the functionality that <strong>belongs to the class “as a whole”</strong>. It doesn’t relate to a concrete class instance.</p>
+<p>They are labeled by the word <strong>static</strong> in class declaration.</p>
+<p>Static properties are used when we’d like to store class-level data, also not bound to an instance.</p>
+<p><strong>Syntax:</strong></p>
+<pre><code class="language-javascript"><span class="hljs-keyword">class</span> <span class="hljs-title class_">MyClass</span> {
+  <span class="hljs-title function_">constructor</span>(<span class="hljs-params">arg1, arg2, ...</span>) {
+    <span class="hljs-comment">// Initialize instance properties</span>
+  }
+
+<span class="hljs-comment">// Instance method</span>
+  <span class="hljs-title function_">myInstanceMethod</span>(<span class="hljs-params">arg1, arg2, ...</span>) {
+    <span class="hljs-comment">// Implementation here</span>
+  }
+
+<span class="hljs-comment">// Static method</span>
+  <span class="hljs-keyword">static</span> <span class="hljs-title function_">myStaticMethod</span>(<span class="hljs-params">arg1, arg2, ...</span>) {
+    <span class="hljs-comment">// Implementation here</span>
+  }
+}
+</code></pre>
+<p><strong>Example</strong></p>
+<p>Now we add to the our earlier <em>instructor</em> example two static methods: <em>static helloWorld()</em> and <em>static canTeach()</em>:</p>
+<br>
+<pre><code class="language-JS"><span class="hljs-keyword">class</span> <span class="hljs-title class_">Instructor</span> {
+  <span class="hljs-title function_">constructor</span>(<span class="hljs-params">{ name, role = <span class="hljs-string">&quot;assistant&quot;</span> }</span>) {
+    <span class="hljs-variable language_">this</span>.<span class="hljs-property">role</span> = role;
+    <span class="hljs-variable language_">this</span>.<span class="hljs-property">name</span> = name;
+  }
+
+  <span class="hljs-comment">// Instance method</span>
+  <span class="hljs-title function_">renderDetails</span>(<span class="hljs-params"></span>) {
+    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">`<span class="hljs-subst">${<span class="hljs-variable language_">this</span>.name}</span> - <span class="hljs-subst">${<span class="hljs-variable language_">this</span>.role}</span>`</span>);
+  }
+
+  <span class="hljs-comment">// Base case static method</span>
+  <span class="hljs-keyword">static</span> <span class="hljs-title function_">helloWorld</span>(<span class="hljs-params"></span>) {
+    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&#x27;Hi there&#x27;</span>);
+  }
+
+  <span class="hljs-comment">// Static method</span>
+  <span class="hljs-keyword">static</span> <span class="hljs-title function_">canTeach</span>(<span class="hljs-params">instructor</span>) {
+    <span class="hljs-keyword">return</span> (instructor.<span class="hljs-property">role</span> === <span class="hljs-string">&#x27;classroom&#x27;</span>);
+  }
+}
+
+<span class="hljs-keyword">let</span> juniorInstructor = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Instructor</span>({ <span class="hljs-string">&#x27;name&#x27;</span> : <span class="hljs-string">&#x27;Brian&#x27;</span> });
+<span class="hljs-keyword">let</span> seniorInstructor = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Instructor</span>({ <span class="hljs-string">&#x27;name&#x27;</span> : <span class="hljs-string">&#x27;Alice&#x27;</span>, <span class="hljs-string">&quot;role&quot;</span> : <span class="hljs-string">&quot;classroom&quot;</span> });
+
+juniorInstructor.<span class="hljs-title function_">renderDetails</span>(); <span class="hljs-comment">// &quot;Brian - assistant&quot;</span>
+seniorInstructor.<span class="hljs-title function_">renderDetails</span>(); <span class="hljs-comment">// &quot;Alice - classroom&quot;</span>
+
+<span class="hljs-title class_">Instructor</span>.<span class="hljs-title function_">helloWorld</span>(); <span class="hljs-comment">// &quot;Hi there&quot;</span>
+
+
+<span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(
+  <span class="hljs-string">`<span class="hljs-subst">${juniorInstructor.name}</span> can teach: <span class="hljs-subst">${Instructor.canTeach(juniorInstructor)}</span>`</span>
+);  <span class="hljs-comment">// &quot;Brian can teach: false&quot;</span>
+
+
+<span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(
+  <span class="hljs-string">`<span class="hljs-subst">${seniorInstructor.name}</span> can teach: <span class="hljs-subst">${Instructor.canTeach(seniorInstructor)}</span>`</span>
+);   <span class="hljs-comment">// &quot;Alice can teach: true&quot;</span>
+</code></pre>
+<br>
+<p><strong>Code explanation:</strong></p>
+<p>We've <strong>created an instructor</strong> we've leveraged the <strong>constructor method</strong> which initializes all of these data values such as <em>name</em> and <em>role</em>.</p>
+<p>Then down below, we created the <strong>method canTeach()</strong> which allows us to <strong>simply pass in an instructor</strong> and we can call that directly.</p>
+<p>So notice at the bottom how we called <code>alice.name</code> and <code>jon.name</code>? What that allows us to do is <strong>simply call the attributes</strong> and work with setters and getters to pull out the data.</p>
+<p>With the canTeach() method, we're not actually communicating at all with the instance of the Jon class or the Alice class. What we're doing is we're <strong>calling our helper method of canTeach</strong> and then we're just <strong>passing in the object</strong>. So this object was already created. We're not calling on the object itself. We're just passing this <strong>into our helper method of canTeach</strong>.</p>
+<br>
+<p><strong>Coding Exercise Example</strong></p>
+<p>Now you're in the market for a new home and need to compare some things first. Instantiate an object called choice1 and set the type to &quot;house&quot;. It must return true. Instantiate another object called choice2 and the type must be set to &quot;apartment&quot; and that must return false.</p>
+<pre><code class="language-JS"><span class="hljs-keyword">class</span> <span class="hljs-title class_">Home</span> {
+	<span class="hljs-title function_">constructor</span>(<span class="hljs-params">{ type, payment = <span class="hljs-string">&quot;renting&quot;</span> }</span>) {
+		<span class="hljs-variable language_">this</span>.<span class="hljs-property">type</span> = type;
+		<span class="hljs-variable language_">this</span>.<span class="hljs-property">payment</span> = payment;
+	}
+
+<span class="hljs-comment">// Instance method</span>
+  <span class="hljs-title function_">renderDetails</span>(<span class="hljs-params"></span>) {
+    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">`<span class="hljs-subst">${<span class="hljs-variable language_">this</span>.type}</span> - <span class="hljs-subst">${<span class="hljs-variable language_">this</span>.payment}</span>`</span>);
+  }
+
+<span class="hljs-comment">// Static method</span>
+	<span class="hljs-keyword">static</span> <span class="hljs-title function_">homeImprovement</span>(<span class="hljs-params">yourHome</span>) {
+		<span class="hljs-keyword">return</span> (yourHome.<span class="hljs-property">payment</span> === <span class="hljs-string">&#x27;mortgage&#x27;</span>)
+	}
+}
+
+<span class="hljs-comment">// Create an instance of Home</span>
+<span class="hljs-keyword">let</span> choice1 = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Home</span> ({<span class="hljs-string">&quot;type&quot;</span>: <span class="hljs-string">&quot;house&quot;</span>, <span class="hljs-string">&quot;payment&quot;</span>:<span class="hljs-string">&quot;mortgage&quot;</span>});
+
+<span class="hljs-comment">// Call the static method</span>
+<span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(
+  <span class="hljs-string">`A <span class="hljs-subst">${choice1.type}</span> can have improvements: <span class="hljs-subst">${Home.homeImprovement(choice1)}</span>`</span>   <span class="hljs-comment">//&quot;A house can have improvements: true&quot;</span>
+);
+
+<span class="hljs-keyword">let</span> choice2 = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Home</span> ({<span class="hljs-string">&quot;type&quot;</span>: <span class="hljs-string">&quot;apartment&quot;</span>});
+<span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(
+  <span class="hljs-string">`A <span class="hljs-subst">${choice2.type}</span> can have improvements: <span class="hljs-subst">${Home.homeImprovement(choice2)}</span>`</span> <span class="hljs-comment">//&quot;A apartment can have improvements: false&quot;</span>
+);
+
+<span class="hljs-comment">// Call the instance method</span>
+choice1.<span class="hljs-title function_">renderDetails</span>(); <span class="hljs-comment">//&quot;house - mortgage&quot;</span>
+choice2.<span class="hljs-title function_">renderDetails</span>();<span class="hljs-comment">// &quot;apartment - renting&quot;</span>
+
+ 
+<span class="hljs-comment">//   &quot;house is: true&quot;</span>
+<span class="hljs-comment">// &quot;apartment is: false&quot;</span>
+</code></pre>
+<pre><code class="language-Note:">NOTE:
+The term **yourHome** is just a **placeholder** name for the object representing a home. It doesn’t have any special significance beyond being a descriptive variable name. You could use any other valid variable name in its place. In this case, it’s used to emphasize that the method operates on a home object passed as an argument.
+</code></pre>
+<br>
+<h1 id="what-is-the-difference-between-static-and-instance-methods">What is the difference between static and instance methods?</h1>
+<p><strong>Static methods</strong> are like global utility functions associated with the class.</p>
+<p><strong>Instance methods</strong> are specific to individual instances and work with their unique data.</p>
+<p>Let´s see the <strong>difference between instance methods and static methods</strong> in JavaScript:</p>
+<ol>
+<li>
+<p><strong>Instance Methods</strong>:</p>
+<ul>
+<li><strong>Definition</strong>: Instance methods are methods that require an object (instance) of a class to be created before they can be called.</li>
+<li><strong>Usage</strong>: You call instance methods on specific instances of the class (i.e., objects that you create).</li>
+<li><strong>Purpose</strong>: Instance methods operate on the specific instance and return a result based on the content of that particular object.</li>
+<li><strong>Example in our Code example before</strong>:
+<ul>
+<li>The <code>renderDetails()</code> method in our <code>Home</code> class is an instance method.</li>
+<li>It logs the type and payment of the specific home instance (e.g., house or apartment) to the console.</li>
+<li>When we create an instance of <code>Home</code> (like <code>choice1</code> or <code>choice2</code>), you can call this method on that instance.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>Static Methods</strong>:</p>
+<ul>
+<li><strong>Definition</strong>: Static methods are associated with the <strong>class</strong> itself, not with any specific instance of the class.</li>
+<li><strong>Usage</strong>: You call static methods directly on the constructor function (class), rather than on individual instances.</li>
+<li><strong>Purpose</strong>: Static methods are used for functionality that belongs to the class &quot;as a whole.&quot; They don't relate to a specific instance.</li>
+<li><strong>Examples in our Code</strong>:
+<ul>
+<li>The <code>homeImprovement(yourHome)</code> method is a static method in our <code>Home</code> class.</li>
+<li>It checks whether the payment type of the provided <code>yourHome</code> object is <code>'mortgage'</code>.</li>
+<li>Static methods <strong>are often utility functions</strong>, such as creating or transforming data related to the class itself.</li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+<p>In summary:</p>
+<ul>
+<li><strong>Instance methods</strong> are called on specific instances and operate on the content of those instances.</li>
+<li><strong>Static methods</strong> are called on the class itself and are used for broader functionality related to the class.</li>
+</ul>
+<br>
+<h1 id="summary">Summary</h1>
+<p><strong>Code Syntax Example</strong></p>
+<br>
+<pre><code class="language-JS"><span class="hljs-keyword">class</span> <span class="hljs-title class_">MyClass</span> {
+  <span class="hljs-title function_">constructor</span>(<span class="hljs-params">arg1, arg2, ...</span>) {
+    <span class="hljs-comment">// Initialize instance properties</span>
+  }
+
+<span class="hljs-comment">// Instance method</span>
+  <span class="hljs-title function_">myInstanceMethod</span>(<span class="hljs-params">arg1, arg2, ...</span>) {
+    <span class="hljs-comment">// Implementation here</span>
+  }
+
+<span class="hljs-comment">// Static method</span>
+  <span class="hljs-keyword">static</span> <span class="hljs-title function_">myStaticMethod</span>(<span class="hljs-params">arg1, arg2, ...</span>) {
+    <span class="hljs-comment">// Implementation here</span>
+  }
+}
+</code></pre>
+<br>
+<ol>
+<li>
+<p><strong>Class Declaration:</strong></p>
+<ul>
+<li>The <code>class</code> keyword is used to declare a new class called <code>MyClass</code>.</li>
+<li>Inside the class, you can define instance methods, static methods, and a constructor.</li>
+</ul>
+</li>
+<li>
+<p><strong>Constructor:</strong></p>
+<ul>
+<li>The <code>constructor</code> method is a special method that gets called when you create an instance of the class (using the <code>new</code> keyword).</li>
+<li>It initializes instance properties based on the arguments passed to it.</li>
+<li>In your example, <code>arg1</code> and <code>arg2</code> are placeholders for actual arguments you would provide when creating an instance of <code>MyClass</code>.</li>
+</ul>
+</li>
+<li>
+<p><strong>Instance Methods:</strong></p>
+<ul>
+<li>The <code>myInstanceMethod</code> is an instance method.</li>
+<li>You can call it on instances of <code>MyClass</code>.</li>
+<li>It operates on specific instance data (properties) and can be customized for each instance.</li>
+</ul>
+</li>
+<li>
+<p><strong>Static Methods:</strong></p>
+<ul>
+<li>The <code>myStaticMethod</code> is a static method.</li>
+<li>Unlike instance methods, static methods are called on the class itself (not on instances).</li>
+<li>They don't have access to instance-specific data and are often used for utility functions related to the class.</li>
+</ul>
+</li>
+<li>
+<p><strong>Usage:</strong></p>
+<ul>
+<li>To <strong>create an instance</strong> of <code>MyClass</code>, you'd do something like this:<pre><code class="language-javascript"><span class="hljs-keyword">const</span> myInstance = <span class="hljs-keyword">new</span> <span class="hljs-title class_">MyClass</span>(arg1Value, arg2Value);
+</code></pre>
+</li>
+<li>You can then <strong>call instance methods</strong> on <code>myInstance</code>:<pre><code class="language-javascript">myInstance.<span class="hljs-title function_">myInstanceMethod</span>();
+</code></pre>
+</li>
+<li>And <strong>call static methods</strong> directly on the class:<pre><code class="language-javascript"><span class="hljs-title class_">MyClass</span>.<span class="hljs-title function_">myStaticMethod</span>();
+</code></pre>
+</li>
+</ul>
+</li>
+</ol>
+<br>
+<h1 id="references">References</h1>
+<ul>
+<li>
+<p><a href="https://basque.devcamp.com/pt-full-stack-development-javascript-python-react/guide/section-introduction-9aac9ed1-c496-4244-958e-312f2ef5b9a3">DevCamp: Object Oriented Programming in JavaScript Section Introduction</a></p>
+</li>
+<li>
+<p><a href="https://www.geeksforgeeks.org/introduction-object-oriented-programming-javascript/">Geeksforgeeks: Introduction to Object Oriented Programming in JavaScript</a></p>
+</li>
+<li>
+<p><a href="https://www.freecodecamp.org/news/how-javascript-implements-oop/">Object Oriented Programming in JavaScript – Explained with Examples</a></p>
+</li>
+<li>
+<p><a href="https://javascript.info/static-properties-methods">The JavaScript language: Static properties and methods</a></p>
+</li>
+<li>
+<p><a href="https://www.30secondsofcode.org/js/s/static-instance-methods/">What is the difference between static and instance methods?</a></p>
+</li>
+<li>
+<p><a href="https://www.youtube.com/@3dCodeWorld">3dCodeWorld: JavaScript for visual learners course</a></p>
+</li>
+</ul>
+<br>
+<p><a href="#top"> <span style="color: #f2f2f2; font-size: 30px;"><img src="file:////images/Top-Icon1.webp" alt="alt"></a></span>
+<br></p>
+<p><sub><a href="README.html">&lt;&lt;Back to README</a></sub></p>
+
+            <script async src="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.js"></script>
+            
+        </body>
+        </html>
